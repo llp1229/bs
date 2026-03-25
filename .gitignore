@@ -41,6 +41,9 @@ data/disease_dataset/
 *.pkl
 *.onnx
 
+# Except for the best model
+!runs/detect/train_combined/weights/best.pt
+
 # Output
 detection_results/
 *.log
