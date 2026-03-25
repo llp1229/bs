@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Data and Models (large files)
+data/disease_dataset/
+*.pt
+*.pth
+*.h5
+*.pkl
+*.onnx
+
+# Output
+detection_results/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
