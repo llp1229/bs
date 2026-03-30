@@ -1105,13 +1105,17 @@ def main():
                     env_stats=env_stats
                 )
                 # 展示建议并提供下载
+                # 展示建议并提供下载
                 if suggestion:
                     st.markdown("<h3>💡 山西古建筑专属养护建议（AI生成）</h3>", unsafe_allow_html=True)
+                    # 先把换行处理好，避免在f-string里用反斜杠
+                    formatted_suggestion = suggestion.replace('\n', '<br>')
                     st.markdown(f"""
                     <div style="background-color: rgba(46, 204, 113, 0.08); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #27ae60; line-height: 1.8;">
-                        {suggestion.replace('\n', '<br>')}
+                    {formatted_suggestion}
                     </div>
                     """, unsafe_allow_html=True)
+
                     # 下载建议
                     st.download_button(
                         label="📥 下载养护建议（TXT）",
