@@ -190,250 +190,481 @@ def get_local_bg_image(image_path):
 
 
 # ---------------------- 页面基础设置（美化核心） ----------------------
-# 自定义页面样式（全面美化：配色、动效、布局、组件样式）
-st.markdown("""
-<style>
-/* 全局重置 */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+# 背景图路径（修正路径格式，保留空格）
+bg_image_path = r"D:\sy\背景.jpg"
+# 检查文件是否存在
+if not os.path.exists(bg_image_path):
+    st.error(f"❌ 背景图文件不存在！检查路径：{bg_image_path}")
+    # 使用系统网页背景图作为备选
+    backup_bg_path = r"D:\sy\系统网页背景图.png"
+    if os.path.exists(backup_bg_path):
+        st.warning(f"⚠️ 使用备用背景图：{backup_bg_path}")
+        bg_image_path = backup_bg_path
+    else:
+        st.warning("⚠️ 无备用背景图，将使用默认背景")
+        bg_image_path = ""
+bg_img_base64 = get_local_bg_image(bg_image_path)
 
-/* 全局背景设置 */
-.stApp {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-}
+# 构建完整的CSS样式
+if bg_img_base64:
+    # 有背景图的情况
+    css_style = "<style>"
+    css_style += "/* 全局重置 */"
+    css_style += "* {"
+    css_style += "    margin: 0;"
+    css_style += "    padding: 0;"
+    css_style += "    box-sizing: border-box;"
+    css_style += "}"
+    css_style += "/* 全局背景设置 */"
+    css_style += ".stApp {"
+    css_style += "    background-image: url('data:image/png;base64," + bg_img_base64 + "');"
+    css_style += "    background-size: cover;"
+    css_style += "    background-position: center;"
+    css_style += "    background-repeat: no-repeat;"
+    css_style += "    background-attachment: fixed;"
+    css_style += "    background-color: #f8f9fa; /* 备用背景色 */"
+    css_style += "    min-height: 100vh;"
+    css_style += "}"
+    css_style += "/* 主内容容器 */"
+    css_style += ".main .block-container {"
+    css_style += "    background-color: rgba(255, 255, 255, 0.92);"
+    css_style += "    border-radius: 16px;"
+    css_style += "    padding: 2.5rem;"
+    css_style += "    margin-top: 2rem;"
+    css_style += "    margin-bottom: 2rem;"
+    css_style += "    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);"
+    css_style += "    border: 1px solid rgba(255, 255, 255, 0.8);"
+    css_style += "}"
+    css_style += "/* 侧边栏美化 */"
+    css_style += ".stSidebar {"
+    css_style += "    background-color: rgba(240, 242, 246, 0.95);"
+    css_style += "    border-radius: 12px;"
+    css_style += "    margin: 1rem;"
+    css_style += "    padding: 1.5rem !important;"
+    css_style += "    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);"
+    css_style += "}"
+    css_style += "/* 侧边栏标题 */"
+    css_style += ".stSidebar h2, .stSidebar h3 {"
+    css_style += "    color: #2c3e50;"
+    css_style += "    font-weight: 700;"
+    css_style += "    margin-bottom: 1rem;"
+    css_style += "    border-bottom: 2px solid #e74c3c;"
+    css_style += "    padding-bottom: 0.5rem;"
+    css_style += "}"
+    css_style += "/* 按钮美化 */"
+    css_style += ".stButton>button {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "    color: white;"
+    css_style += "    border: none;"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 0.6rem 1.2rem;"
+    css_style += "    font-weight: 600;"
+    css_style += "    font-size: 14px;"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.15);"
+    css_style += "}"
+    css_style += ".stButton>button:hover {"
+    css_style += "    background-color: #c0392b;"
+    css_style += "    transform: translateY(-2px);"
+    css_style += "    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.2);"
+    css_style += "}"
+    css_style += ".stButton>button:active {"
+    css_style += "    transform: translateY(0);"
+    css_style += "}"
+    css_style += "/* 主要按钮（primary） */"
+    css_style += ".stButton>button[type=\"primary\"] {"
+    css_style += "    background-color: #2980b9;"
+    css_style += "    box-shadow: 0 4px 6px rgba(41, 128, 185, 0.15);"
+    css_style += "}"
+    css_style += ".stButton>button[type=\"primary\"]:hover {"
+    css_style += "    background-color: #1f618d;"
+    css_style += "    box-shadow: 0 6px 12px rgba(41, 128, 185, 0.2);"
+    css_style += "}"
+    css_style += "/* 滑块美化 */"
+    css_style += ".stSlider {"
+    css_style += "    padding: 1rem 0;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] {"
+    css_style += "    margin: 0;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .thumb {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "    border: 2px solid white;"
+    css_style += "    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .track-1 {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .track-2 {"
+    css_style += "    background-color: #e0e0e0;"
+    css_style += "}"
+    css_style += "/* 输入框美化 */"
+    css_style += ".stTextInput>div>div>input, .stSelectbox>div>div>select {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    border: 1px solid #ddd;"
+    css_style += "    padding: 0.6rem 1rem;"
+    css_style += "    font-size: 14px;"
+    css_style += "    transition: border 0.3s ease;"
+    css_style += "}"
+    css_style += ".stTextInput>div>div>input:focus, .stSelectbox>div>div>select:focus {"
+    css_style += "    border-color: #2980b9;"
+    css_style += "    outline: none;"
+    css_style += "    box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.2);"
+    css_style += "}"
+    css_style += "/* 文件上传组件 */"
+    css_style += ".stFileUploader {"
+    css_style += "    padding: 1.5rem;"
+    css_style += "    border: 2px dashed #ddd;"
+    css_style += "    border-radius: 12px;"
+    css_style += "    background-color: rgba(255, 255, 255, 0.8);"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "}"
+    css_style += ".stFileUploader:hover {"
+    css_style += "    border-color: #2980b9;"
+    css_style += "    background-color: rgba(245, 250, 255, 0.9);"
+    css_style += "}"
+    css_style += "/* 下载按钮 */"
+    css_style += ".stDownloadButton>button {"
+    css_style += "    background-color: #27ae60;"
+    css_style += "    color: white;"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 0.6rem 1.2rem;"
+    css_style += "    font-weight: 600;"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "}"
+    css_style += ".stDownloadButton>button:hover {"
+    css_style += "    background-color: #219653;"
+    css_style += "    transform: translateY(-2px);"
+    css_style += "    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);"
+    css_style += "}"
+    css_style += "/* 卡片/容器样式 */"
+    css_style += ".dataframe, .stDataFrame {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    overflow: hidden;"
+    css_style += "    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);"
+    css_style += "}"
+    css_style += "/* 文字样式优化 */"
+    css_style += "h1 {"
+    css_style += "    color: #2c3e50 !important;"
+    css_style += "    font-weight: 800 !important;"
+    css_style += "    line-height: 1.2 !important;"
+    css_style += "    margin-bottom: 0.5rem !important;"
+    css_style += "}"
+    css_style += "h2 {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-weight: 700 !important;"
+    css_style += "    margin: 1.5rem 0 1rem 0 !important;"
+    css_style += "    padding-bottom: 0.5rem;"
+    css_style += "    border-bottom: 2px solid #f1c40f;"
+    css_style += "}"
+    css_style += "h3 {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-weight: 600 !important;"
+    css_style += "    margin: 1rem 0 0.8rem 0 !important;"
+    css_style += "}"
+    css_style += "h4 {"
+    css_style += "    color: #7f8c8d !important;"
+    css_style += "    font-weight: 500 !important;"
+    css_style += "}"
+    css_style += "p, div, span {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-size: 14px !important;"
+    css_style += "    line-height: 1.6 !important;"
+    css_style += "}"
+    css_style += "/* 视频样式 */"
+    css_style += ".custom-video {"
+    css_style += "    width: 100%;"
+    css_style += "    height: auto;"
+    css_style += "    border-radius: 12px;"
+    css_style += "    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);"
+    css_style += "    transition: transform 0.3s ease;"
+    css_style += "}"
+    css_style += ".custom-video:hover {"
+    css_style += "    transform: scale(1.02);"
+    css_style += "}"
+    css_style += "/* 加载动画美化 */"
+    css_style += ".stSpinner > div > div {"
+    css_style += "    border-top-color: #e74c3c !important;"
+    css_style += "    width: 2rem !important;"
+    css_style += "    height: 2rem !important;"
+    css_style += "}"
+    css_style += "/* 提示框样式 */"
+    css_style += ".stSuccess, .stInfo, .stWarning, .stError {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 1rem;"
+    css_style += "    margin: 1rem 0;"
+    css_style += "    border-left: 4px solid;"
+    css_style += "}"
+    css_style += ".stSuccess {"
+    css_style += "    background-color: rgba(46, 204, 113, 0.1);"
+    css_style += "    border-left-color: #27ae60;"
+    css_style += "}"
+    css_style += ".stInfo {"
+    css_style += "    background-color: rgba(52, 152, 219, 0.1);"
+    css_style += "    border-left-color: #2980b9;"
+    css_style += "}"
+    css_style += ".stWarning {"
+    css_style += "    background-color: rgba(241, 196, 15, 0.1);"
+    css_style += "    border-left-color: #f39c12;"
+    css_style += "}"
+    css_style += ".stError {"
+    css_style += "    background-color: rgba(231, 76, 60, 0.1);"
+    css_style += "    border-left-color: #e74c3c;"
+    css_style += "}"
+    css_style += "/* 分割线 */"
+    css_style += "hr {"
+    css_style += "    border: none;"
+    css_style += "    height: 1px;"
+    css_style += "    background: linear-gradient(to right, transparent, #ddd, transparent);"
+    css_style += "    margin: 2rem 0;"
+    css_style += "}"
+    css_style += "/* 响应式适配 */"
+    css_style += "@media (max-width: 768px) {"
+    css_style += "    .main .block-container {"
+    css_style += "        padding: 1.5rem;"
+    css_style += "        margin-top: 1rem;"
+    css_style += "    }"
+    css_style += "    .stSidebar {"
+    css_style += "        margin: 0.5rem;"
+    css_style += "        padding: 1rem !important;"
+    css_style += "    }"
+    css_style += "    h1 {"
+    css_style += "        font-size: 28px !important;"
+    css_style += "    }"
+    css_style += "    h2 {"
+    css_style += "        font-size: 20px !important;"
+    css_style += "    }"
+    css_style += "}"
+    css_style += "</style>"
+else:
+    # 无背景图的情况
+    css_style = "<style>"
+    css_style += "/* 全局重置 */"
+    css_style += "* {"
+    css_style += "    margin: 0;"
+    css_style += "    padding: 0;"
+    css_style += "    box-sizing: border-box;"
+    css_style += "}"
+    css_style += "/* 全局背景设置 */"
+    css_style += ".stApp {"
+    css_style += "    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"
+    css_style += "    background-attachment: fixed;"
+    css_style += "    min-height: 100vh;"
+    css_style += "}"
+    css_style += "/* 主内容容器 */"
+    css_style += ".main .block-container {"
+    css_style += "    background-color: rgba(255, 255, 255, 0.92);"
+    css_style += "    border-radius: 16px;"
+    css_style += "    padding: 2.5rem;"
+    css_style += "    margin-top: 2rem;"
+    css_style += "    margin-bottom: 2rem;"
+    css_style += "    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);"
+    css_style += "    border: 1px solid rgba(255, 255, 255, 0.8);"
+    css_style += "}"
+    css_style += "/* 侧边栏美化 */"
+    css_style += ".stSidebar {"
+    css_style += "    background-color: rgba(240, 242, 246, 0.95);"
+    css_style += "    border-radius: 12px;"
+    css_style += "    margin: 1rem;"
+    css_style += "    padding: 1.5rem !important;"
+    css_style += "    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);"
+    css_style += "}"
+    css_style += "/* 侧边栏标题 */"
+    css_style += ".stSidebar h2, .stSidebar h3 {"
+    css_style += "    color: #2c3e50;"
+    css_style += "    font-weight: 700;"
+    css_style += "    margin-bottom: 1rem;"
+    css_style += "    border-bottom: 2px solid #e74c3c;"
+    css_style += "    padding-bottom: 0.5rem;"
+    css_style += "}"
+    css_style += "/* 按钮美化 */"
+    css_style += ".stButton>button {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "    color: white;"
+    css_style += "    border: none;"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 0.6rem 1.2rem;"
+    css_style += "    font-weight: 600;"
+    css_style += "    font-size: 14px;"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.15);"
+    css_style += "}"
+    css_style += ".stButton>button:hover {"
+    css_style += "    background-color: #c0392b;"
+    css_style += "    transform: translateY(-2px);"
+    css_style += "    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.2);"
+    css_style += "}"
+    css_style += ".stButton>button:active {"
+    css_style += "    transform: translateY(0);"
+    css_style += "}"
+    css_style += "/* 主要按钮（primary） */"
+    css_style += ".stButton>button[type=\"primary\"] {"
+    css_style += "    background-color: #2980b9;"
+    css_style += "    box-shadow: 0 4px 6px rgba(41, 128, 185, 0.15);"
+    css_style += "}"
+    css_style += ".stButton>button[type=\"primary\"]:hover {"
+    css_style += "    background-color: #1f618d;"
+    css_style += "    box-shadow: 0 6px 12px rgba(41, 128, 185, 0.2);"
+    css_style += "}"
+    css_style += "/* 滑块美化 */"
+    css_style += ".stSlider {"
+    css_style += "    padding: 1rem 0;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] {"
+    css_style += "    margin: 0;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .thumb {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "    border: 2px solid white;"
+    css_style += "    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .track-1 {"
+    css_style += "    background-color: #e74c3c;"
+    css_style += "}"
+    css_style += ".stSlider [data-baseweb=\"slider\"] .track-2 {"
+    css_style += "    background-color: #e0e0e0;"
+    css_style += "}"
+    css_style += "/* 输入框美化 */"
+    css_style += ".stTextInput>div>div>input, .stSelectbox>div>div>select {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    border: 1px solid #ddd;"
+    css_style += "    padding: 0.6rem 1rem;"
+    css_style += "    font-size: 14px;"
+    css_style += "    transition: border 0.3s ease;"
+    css_style += "}"
+    css_style += ".stTextInput>div>div>input:focus, .stSelectbox>div>div>select:focus {"
+    css_style += "    border-color: #2980b9;"
+    css_style += "    outline: none;"
+    css_style += "    box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.2);"
+    css_style += "}"
+    css_style += "/* 文件上传组件 */"
+    css_style += ".stFileUploader {"
+    css_style += "    padding: 1.5rem;"
+    css_style += "    border: 2px dashed #ddd;"
+    css_style += "    border-radius: 12px;"
+    css_style += "    background-color: rgba(255, 255, 255, 0.8);"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "}"
+    css_style += ".stFileUploader:hover {"
+    css_style += "    border-color: #2980b9;"
+    css_style += "    background-color: rgba(245, 250, 255, 0.9);"
+    css_style += "}"
+    css_style += "/* 下载按钮 */"
+    css_style += ".stDownloadButton>button {"
+    css_style += "    background-color: #27ae60;"
+    css_style += "    color: white;"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 0.6rem 1.2rem;"
+    css_style += "    font-weight: 600;"
+    css_style += "    transition: all 0.3s ease;"
+    css_style += "}"
+    css_style += ".stDownloadButton>button:hover {"
+    css_style += "    background-color: #219653;"
+    css_style += "    transform: translateY(-2px);"
+    css_style += "    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);"
+    css_style += "}"
+    css_style += "/* 卡片/容器样式 */"
+    css_style += ".dataframe, .stDataFrame {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    overflow: hidden;"
+    css_style += "    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);"
+    css_style += "}"
+    css_style += "/* 文字样式优化 */"
+    css_style += "h1 {"
+    css_style += "    color: #2c3e50 !important;"
+    css_style += "    font-weight: 800 !important;"
+    css_style += "    line-height: 1.2 !important;"
+    css_style += "    margin-bottom: 0.5rem !important;"
+    css_style += "}"
+    css_style += "h2 {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-weight: 700 !important;"
+    css_style += "    margin: 1.5rem 0 1rem 0 !important;"
+    css_style += "    padding-bottom: 0.5rem;"
+    css_style += "    border-bottom: 2px solid #f1c40f;"
+    css_style += "}"
+    css_style += "h3 {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-weight: 600 !important;"
+    css_style += "    margin: 1rem 0 0.8rem 0 !important;"
+    css_style += "}"
+    css_style += "h4 {"
+    css_style += "    color: #7f8c8d !important;"
+    css_style += "    font-weight: 500 !important;"
+    css_style += "}"
+    css_style += "p, div, span {"
+    css_style += "    color: #34495e !important;"
+    css_style += "    font-size: 14px !important;"
+    css_style += "    line-height: 1.6 !important;"
+    css_style += "}"
+    css_style += "/* 视频样式 */"
+    css_style += ".custom-video {"
+    css_style += "    width: 100%;"
+    css_style += "    height: auto;"
+    css_style += "    border-radius: 12px;"
+    css_style += "    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);"
+    css_style += "    transition: transform 0.3s ease;"
+    css_style += "}"
+    css_style += ".custom-video:hover {"
+    css_style += "    transform: scale(1.02);"
+    css_style += "}"
+    css_style += "/* 加载动画美化 */"
+    css_style += ".stSpinner > div > div {"
+    css_style += "    border-top-color: #e74c3c !important;"
+    css_style += "    width: 2rem !important;"
+    css_style += "    height: 2rem !important;"
+    css_style += "}"
+    css_style += "/* 提示框样式 */"
+    css_style += ".stSuccess, .stInfo, .stWarning, .stError {"
+    css_style += "    border-radius: 8px;"
+    css_style += "    padding: 1rem;"
+    css_style += "    margin: 1rem 0;"
+    css_style += "    border-left: 4px solid;"
+    css_style += "}"
+    css_style += ".stSuccess {"
+    css_style += "    background-color: rgba(46, 204, 113, 0.1);"
+    css_style += "    border-left-color: #27ae60;"
+    css_style += "}"
+    css_style += ".stInfo {"
+    css_style += "    background-color: rgba(52, 152, 219, 0.1);"
+    css_style += "    border-left-color: #2980b9;"
+    css_style += "}"
+    css_style += ".stWarning {"
+    css_style += "    background-color: rgba(241, 196, 15, 0.1);"
+    css_style += "    border-left-color: #f39c12;"
+    css_style += "}"
+    css_style += ".stError {"
+    css_style += "    background-color: rgba(231, 76, 60, 0.1);"
+    css_style += "    border-left-color: #e74c3c;"
+    css_style += "}"
+    css_style += "/* 分割线 */"
+    css_style += "hr {"
+    css_style += "    border: none;"
+    css_style += "    height: 1px;"
+    css_style += "    background: linear-gradient(to right, transparent, #ddd, transparent);"
+    css_style += "    margin: 2rem 0;"
+    css_style += "}"
+    css_style += "/* 响应式适配 */"
+    css_style += "@media (max-width: 768px) {"
+    css_style += "    .main .block-container {"
+    css_style += "        padding: 1.5rem;"
+    css_style += "        margin-top: 1rem;"
+    css_style += "    }"
+    css_style += "    .stSidebar {"
+    css_style += "        margin: 0.5rem;"
+    css_style += "        padding: 1rem !important;"
+    css_style += "    }"
+    css_style += "    h1 {"
+    css_style += "        font-size: 28px !important;"
+    css_style += "    }"
+    css_style += "    h2 {"
+    css_style += "        font-size: 20px !important;"
+    css_style += "    }"
+    css_style += "}"
+    css_style += "</style>"
 
-/* 主内容容器 */
-.main .block-container {{
-    background-color: rgba(255, 255, 255, 0.92);
-    border-radius: 16px;
-    padding: 2.5rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.8);
-}}
-
-/* 侧边栏美化 */
-.stSidebar {{
-    background-color: rgba(240, 242, 246, 0.95);
-    border-radius: 12px;
-    margin: 1rem;
-    padding: 1.5rem !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}}
-
-/* 侧边栏标题 */
-.stSidebar h2, .stSidebar h3 {{
-    color: #2c3e50;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #e74c3c;
-    padding-bottom: 0.5rem;
-}}
-
-/* 按钮美化 */
-.stButton>button {{
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(231, 76, 60, 0.15);
-}}
-.stButton>button:hover {{
-    background-color: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(231, 76, 60, 0.2);
-}}
-.stButton>button:active {{
-    transform: translateY(0);
-}}
-
-/* 主要按钮（primary） */
-.stButton>button[type="primary"] {{
-    background-color: #2980b9;
-    box-shadow: 0 4px 6px rgba(41, 128, 185, 0.15);
-}}
-.stButton>button[type="primary"]:hover {{
-    background-color: #1f618d;
-    box-shadow: 0 6px 12px rgba(41, 128, 185, 0.2);
-}}
-
-/* 滑块美化 */
-.stSlider {{
-    padding: 1rem 0;
-}}
-.stSlider [data-baseweb="slider"] {{
-    margin: 0;
-}}
-.stSlider [data-baseweb="slider"] .thumb {{
-    background-color: #e74c3c;
-    border: 2px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}}
-.stSlider [data-baseweb="slider"] .track-1 {{
-    background-color: #e74c3c;
-}}
-.stSlider [data-baseweb="slider"] .track-2 {{
-    background-color: #e0e0e0;
-}}
-
-/* 输入框美化 */
-.stTextInput>div>div>input, .stSelectbox>div>div>select {{
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    padding: 0.6rem 1rem;
-    font-size: 14px;
-    transition: border 0.3s ease;
-}}
-.stTextInput>div>div>input:focus, .stSelectbox>div>div>select:focus {{
-    border-color: #2980b9;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.2);
-}}
-
-/* 文件上传组件 */
-.stFileUploader {{
-    padding: 1.5rem;
-    border: 2px dashed #ddd;
-    border-radius: 12px;
-    background-color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}}
-.stFileUploader:hover {{
-    border-color: #2980b9;
-    background-color: rgba(245, 250, 255, 0.9);
-}}
-
-/* 下载按钮 */
-.stDownloadButton>button {{
-    background-color: #27ae60;
-    color: white;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}}
-.stDownloadButton>button:hover {{
-    background-color: #219653;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(39, 174, 96, 0.2);
-}}
-
-/* 卡片/容器样式 */
-.dataframe, .stDataFrame {{
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}}
-
-/* 文字样式优化 */
-h1 {{
-    color: #2c3e50 !important;
-    font-weight: 800 !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
-}}
-h2 {{
-    color: #34495e !important;
-    font-weight: 700 !important;
-    margin: 1.5rem 0 1rem 0 !important;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #f1c40f;
-}}
-h3 {{
-    color: #34495e !important;
-    font-weight: 600 !important;
-    margin: 1rem 0 0.8rem 0 !important;
-}}
-h4 {{
-    color: #7f8c8d !important;
-    font-weight: 500 !important;
-}}
-p, div, span {{
-    color: #34495e !important;
-    font-size: 14px !important;
-    line-height: 1.6 !important;
-}}
-
-/* 视频样式 */
-.custom-video {{
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}}
-.custom-video:hover {{
-    transform: scale(1.02);
-}}
-
-/* 加载动画美化 */
-.stSpinner > div > div {{
-    border-top-color: #e74c3c !important;
-    width: 2rem !important;
-    height: 2rem !important;
-}}
-
-/* 提示框样式 */
-.stSuccess, .stInfo, .stWarning, .stError {{
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-left: 4px solid;
-}}
-.stSuccess {{
-    background-color: rgba(46, 204, 113, 0.1);
-    border-left-color: #27ae60;
-}}
-.stInfo {{
-    background-color: rgba(52, 152, 219, 0.1);
-    border-left-color: #2980b9;
-}}
-.stWarning {{
-    background-color: rgba(241, 196, 15, 0.1);
-    border-left-color: #f39c12;
-}}
-.stError {{
-    background-color: rgba(231, 76, 60, 0.1);
-    border-left-color: #e74c3c;
-}}
-
-/* 分割线 */
-hr {{
-    border: none;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #ddd, transparent);
-    margin: 2rem 0;
-}}
-
-/* 响应式适配 */
-@media (max-width: 768px) {{
-    .main .block-container {{
-        padding: 1.5rem;
-        margin-top: 1rem;
-    }}
-    .stSidebar {{
-        margin: 0.5rem;
-        padding: 1rem !important;
-    }}
-    h1 {{
-        font-size: 28px !important;
-    }}
-    h2 {{
-        font-size: 20px !important;
-    }}
-}}
-</style>
-""", unsafe_allow_html=True)
+# 应用CSS样式
+st.markdown(css_style, unsafe_allow_html=True)
 
 # 标题+本地视频分栏（美化布局）
 col_title, col_video = st.columns([3, 1.2], gap="large")  # 调整比例，增加间距
@@ -461,14 +692,41 @@ with col_title:
         unsafe_allow_html=True
     )
 with col_video:
-    # 使用在线古建筑图片替代本地视频
-    st.markdown("""
-    <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1); background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 20px; text-align: center;">
-        <div style="font-size: 60px; margin-bottom: 10px;">🏯</div>
-        <div style="font-size: 14px; color: #666; font-weight: 600;">山西古建筑</div>
-        <div style="font-size: 12px; color: #999; margin-top: 5px;">木构/砖石病害检测</div>
-    </div>
-    """, unsafe_allow_html=True)
+    # 视频路径（适配Windows反斜杠转义）
+    video_path = r"D:\sy\古建筑.mp4"  # 加r表示原始字符串，避免转义问题
+    if os.path.exists(video_path):
+        try:
+            # 读取视频文件为base64编码（实现0.5倍速）
+            with open(video_path, "rb") as f:
+                video_base64 = base64.b64encode(f.read()).decode("utf-8")
+            video_data_url = f"data:video/mp4;base64,{video_base64}"
+
+            # 自定义HTML5 Video标签，美化样式+动效
+            st.markdown(f"""
+            <div style="border-radius: 12px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.1);">
+                <video class="custom-video" controls autoplay loop muted playsinline preload="metadata">
+                    <source src="{video_data_url}" type="video/mp4">
+                    你的浏览器不支持HTML5视频播放，请更换浏览器后重试。
+                </video>
+            </div>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {{
+                const video = document.querySelector('.custom-video');
+                video.playbackRate = 0.5;
+                video.play();
+                // 视频加载动画
+                video.addEventListener('loadeddata', function() {{
+                    video.style.opacity = '1';
+                }});
+            }});
+            </script>
+            """, unsafe_allow_html=True)
+        except Exception as e:
+            st.error(f"❌ 视频加载失败：{str(e)}")
+            st.info("💡 建议：检查视频文件格式是否为MP4")
+    else:
+        # 美化后的提示框
+        st.warning(f"📹 本地视频文件不存在！检查路径：{video_path}")
 
 # ---------------------- 侧边栏功能选择（美化） ----------------------
 with st.sidebar:
@@ -815,92 +1073,84 @@ elif function_choice == "养护咨询":
         )
         disease_count = st.text_input(
             "",
-            value="裂缝3处，剥落2处",
-            help="填写检测到的具体病害数量",
-            placeholder="例：裂缝5处，剥落3处",
-            label_visibility="collapsed"
-        )
-        st.markdown(
-            "<p style='font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem; margin-top: 1.5rem;'>🔑 API配置</p>",
-            unsafe_allow_html=True)
-        api_key = st.text_input(
-            "",
-            type="password",
-            help="前往https://dashscope.aliyun.com/获取免费API Key",
-            placeholder="输入通义千问API Key...",
+            value="3",
+            help="输入检测到的山西古建筑病害数量",
             label_visibility="collapsed"
         )
     with col2:
-        st.markdown("<p style='font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;'>🌡️ 环境数据</p>",
+        st.markdown("<p style='font-weight: 600; color: #2c3e50; margin-bottom: 0.5rem;'>🔧 环境数据</p>",
                     unsafe_allow_html=True)
-        # 加载环境数据统计
-        env_csv_path = "data/environment_data.csv"
-        env_stats = None
-        if os.path.exists(env_csv_path):
-            try:
-                env_result = full_environment_analysis(env_csv_path)
-                env_stats = env_result["数据概览"]
-                st.success("✅ 已加载山西古建筑周边环境数据统计")
-                # 美化环境数据展示
-                env_html = "<div style='background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 12px;'>"
-                for k, v in env_stats.items():
-                    env_html += f"<div style='padding: 0.3rem 0;'><strong>{k}：</strong>{v}</div>"
-                env_html += "</div>"
-                st.markdown(env_html, unsafe_allow_html=True)
-            except Exception as e:
-                st.warning(f"⚠️ 环境数据加载失败：{str(e)}，将按山西默认气候生成建议")
-        else:
-            st.warning("⚠️ 未找到环境数据，将按山西晋中地区气候生成建议")
+        use_env_data = st.checkbox(
+            "使用环境数据（需先运行'环境数据查看'生成）",
+            value=True,
+            help="勾选后将结合环境数据生成更精准的养护建议"
+        )
 
-    # 2. 生成建议按钮（美化）
-    st.markdown("<div style='margin-top: 2rem;'>", unsafe_allow_html=True)
-    if st.button("🚀 生成山西古建筑专属养护建议", type="primary", use_container_width=True):
-        if not api_key:
-            st.warning("⚠️ 请输入通义千问API Key（免费获取，支持多次调用）")
-        else:
-            with st.spinner("🤖 AI生成山西古建筑养护建议中..."):
-                try:
-                    # 调用咨询函数
-                    suggestion = get_consult_suggestion(
-                        disease_type=disease_type,
-                        disease_count=disease_count,
-                        api_type="tongyi",
-                        api_key=api_key,
-                        env_stats=env_stats
-                    )
-                    # 展示建议（美化）
-                    st.markdown("<h3>📋 山西古建筑定制化养护建议</h3>", unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div style="background: linear-gradient(135deg, #f7f9fb 0%, #f5f7fa 100%); 
-                                padding: 1.8rem; border-radius: 12px; 
-                                border-left: 5px solid #27ae60;
-                                box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-                        <div style="line-height: 2.0; font-size: 15px;">{suggestion}</div>
-                    </div>
-                    """, unsafe_allow_html=True)
+    # 2. API Key输入（美化）
+    st.markdown("<h3>🔑 大模型API配置</h3>", unsafe_allow_html=True)
+    api_key = st.text_input(
+        "",
+        value="",
+        type="password",
+        help="前往 https://dashscope.aliyun.com/ 获取通义千问API Key",
+        placeholder="请输入通义千问API Key...",
+        label_visibility="collapsed"
+    )
 
-                    # 导出建议
-                    st.download_button(
-                        label="📥 导出养护建议（TXT）",
-                        data=suggestion,
-                        file_name=f"山西古建筑养护建议_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.txt",
-                        mime="text/plain",
-                        use_container_width=True,
-                        key="download_suggestion"
-                    )
-                except TimeoutError:
-                    st.error("❌ API请求超时，请检查网络或稍后重试")
-                except Exception as e:
-                    st.error(f"❌ 生成建议失败：{str(e)}")
-                    st.info("💡 检查API Key是否正确，或网络是否通畅")
-    st.markdown("</div>", unsafe_allow_html=True)
+    # 3. 生成养护建议
+    if st.button("🚀 生成山西古建筑专属养护建议", use_container_width=True):
+        try:
+            # 验证输入
+            if not api_key:
+                st.error("❌ 请输入通义千问API Key")
+                st.stop()
 
-# ---------------------- 结尾提示（美化） ----------------------
-st.divider()
-st.markdown(f"""
-<div style="text-align: center; color: #7f8c8d; font-size: 13px; padding: 1rem 0;">
-    💡 当前使用模型：<code style="color: #95a5a6;">{model_abs_path}</code> | 
-    📅 更新时间：{datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | 
-    🏯 适配场景：山西木构/砖石古建筑（应县木塔、晋祠、平遥古城等）
-</div>
-""", unsafe_allow_html=True)
+            # 加载环境数据（如果需要）
+            env_stats = None
+            if use_env_data:
+                env_data_path = "data/environment_data.csv"
+                if os.path.exists(env_data_path):
+                    env_data = pd.read_csv(env_data_path)
+                    env_stats = {
+                        "平均温度(℃)": round(env_data["温度(℃)"].mean(), 1),
+                        "平均湿度(%)": round(env_data["湿度(%)"].mean(), 1),
+                        "累计降水量(mm)": round(env_data["降水量(mm)"].sum(), 1),
+                        "温度波动范围(℃)": f"{env_data['温度(℃)'].min()} ~ {env_data['温度(℃)'].max()}",
+                        "湿度波动范围(%)": f"{env_data['湿度(%)'].min()} ~ {env_data['湿度(%)'].max()}"
+                    }
+                else:
+                    st.warning("⚠️ 环境数据文件不存在，将使用默认山西晋中地区气候参数")
+
+            # 调用API生成建议
+            with st.spinner("🧠 AI分析中（结合山西古建筑特性）..."):
+                suggestion = get_consult_suggestion(
+                    disease_type=disease_type,
+                    disease_count=int(disease_count),
+                    api_key=api_key,
+                    env_stats=env_stats
+                )
+
+            # 展示建议（美化）
+            st.markdown("<h3>💡 山西古建筑专属养护建议</h3>", unsafe_allow_html=True)
+            st.markdown(f"""
+            <div style="background-color: rgba(46, 204, 113, 0.08); padding: 1.5rem; border-radius: 12px; border-left: 4px solid #27ae60; line-height: 1.8;">
+                {suggestion.replace('\n', '<br>')}
+            </div>
+            """, unsafe_allow_html=True)
+
+            # 下载建议
+            st.download_button(
+                label="📥 下载养护建议（txt）",
+                data=suggestion,
+                file_name=f"山西古建筑养护建议_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.txt",
+                mime="text/plain",
+                use_container_width=True
+            )
+
+        except ValueError as ve:
+            st.error(f"❌ 输入错误：{str(ve)}")
+        except TimeoutError as te:
+            st.error(f"⏰ API请求超时：{str(te)}")
+        except Exception as e:
+            st.error(f"❌ 生成建议失败：{str(e)}")
+            st.info("💡 建议：检查API Key是否正确，或稍后重试")
