@@ -30,7 +30,7 @@ if exist "requirements.txt" (
 
 REM 启动 Streamlit 网页
 echo [信息] 启动网页系统...
-streamlit run main.py --server.port 8501 --server.headless false
+streamlit run main.py --server.port 8502 --server.headless false
 
 echo.
 echo [信息] 系统已退出
