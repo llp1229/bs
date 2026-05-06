@@ -1,0 +1,56 @@
+{
+  "太原站": {
+    "count": 2000,
+    "temp_avg": 4.1,
+    "hum_avg": 58.4,
+    "temp_max": 24.2,
+    "temp_min": -15.1,
+    "hum_max": 99.0,
+    "hum_min": 13.0
+  },
+  "大同站": {
+    "count": 2000,
+    "temp_avg": -3.6,
+    "hum_avg": 59.9,
+    "temp_max": 21.2,
+    "temp_min": -22.8,
+    "hum_max": 99.0,
+    "hum_min": 15.0
+  },
+  "临汾站": {
+    "count": 2000,
+    "temp_avg": 7.4,
+    "hum_avg": 58.5,
+    "temp_max": 28.5,
+    "temp_min": -9.0,
+    "hum_max": 98.0,
+    "hum_min": 16.0
+  },
+  "运城站": {
+    "count": 1984,
+    "temp_avg": 7.8,
+    "hum_avg": 63.0,
+    "temp_max": 28.6,
+    "temp_min": -10.3,
+    "hum_max": 100.0,
+    "hum_min": 14.0
+  },
+  "晋城站": {
+    "count": 2000,
+    "temp_avg": 6.4,
+    "hum_avg": 55.0,
+    "temp_max": 25.5,
+    "temp_min": -9.4,
+    "hum_max": 96.0,
+    "hum_min": 9.0
+  },
+  "忻府站": {
+    "count": 2000,
+    "temp_avg": -0.8,
+    "hum_avg": 51.6,
+    "temp_max": 19.2,
+    "temp_min": -16.0,
+    "hum_max": 100.0,
+    "hum_min": 10.0
+  }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>ONNX Diagnostic</title>
+<style>
+body{background:#0a0e1a;color:#e0e0e0;font-family:monospace;padding:20px}
+.step{padding:8px;margin:4px 0;border-left:3px solid #333}
+.ok{border-left-color:#0f0;color:#8f8}
+.fail{border-left-color:#f00;color:#f88}
+.info{border-left-color:#0ff;color:#8ff}
+</style>
+</head>
+<body>
+<h2>ONNX Runtime Diagnostic</h2>
+<div id="log"></div>
+<script src="modules/ort.min.js"></script>
+<script>
+var logEl = document.getElementById('log');
+function log(msg, cls) {
+  var d = new Date();
+  var t = d.getHours()+':'+String(d.getMinutes()).padStart(2,'0')+':'+String(d.getSeconds()).padStart(2,'0');
+  logEl.innerHTML += '<div class="step '+cls+'">['+t+'] '+msg+'</div>';
+}
+
+(async function() {
+  log('Starting diagnostic...', 'info');
+  log('URL: '+location.href, 'info');
+  log('Protocol: '+location.protocol, 'info');
+
+  // Step 1: Check ort
+  log('Step 1: Check ort...', 'info');
+  if (typeof ort === 'undefined') {
+    log('❌ ort is undefined - ONNX Runtime JS not loaded!', 'fail');
+    return;
+  }
+  log('✅ ort is defined, version: '+(ort.version||'unknown'), 'ok');
+
+  // Step 2: Check WASM paths
+  log('Step 2: WASM path config...', 'info');
+  try {
+    if (ort.env && ort.env.wasm) {
+      log('✅ wasmPaths set to: ' + ort.env.wasm.wasmPaths, 'ok');
+      log('   wasm flags: simd='+ort.env.wasm.simd+' numThreads='+ort.env.wasm.numThreads, 'info');
+    } else {
+      log('❌ ort.env.wasm not available', 'fail');
+    }
+  } catch(e) { log('❌ WASM config error: '+e.message, 'fail'); }
+
+  // Step 3: Check if model file exists 
+  log('Step 3: Check model accessibility...', 'info');
+  try {
+    var r = await fetch('modules/model/best.onnx', {method:'HEAD'});
+    log('✅ Model HEAD: HTTP '+r.status+' ('+(parseInt(r.headers.get('content-length'))/1024/1024).toFixed(1)+'MB)', 'ok');
+  } catch(e) { log('❌ Model fetch: '+e.message, 'fail'); return; }
+
+  // Step 4: Try loading the model
+  log('Step 4: Loading ONNX model...', 'info');
+  try {
+    var session = await ort.InferenceSession.create('./modules/model/best.onnx', {
+      graphOptimizationLevel: 'all'
+    });
+    log('✅ Model loaded! Inputs: '+session.inputNames.join(', '), 'ok');
+    log('   Outputs: '+session.outputNames.join(', '), 'ok');
+  } catch(e) {
+    log('❌ Load failed: '+e.message, 'fail');
+    if (e.stack) {
+      log('   Stack: '+e.stack.split('\n').slice(0,3).join('<br>'), 'info');
+    }
+  }
+
+  log('Diagnostic complete.', 'info');
+})();
+</script>
+</body>
+</html>

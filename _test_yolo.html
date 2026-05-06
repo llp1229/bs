@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>YOLO Model Test</title></head>
+<body>
+<h2>YOLO Model Loading Test</h2>
+<div id="log" style="font-family:monospace;white-space:pre-wrap;background:#111;color:#0f0;padding:10px;"></div>
+<script src="modules/ort.min.js"></script>
+<script>
+var logEl = document.getElementById('log');
+function log(msg) { logEl.textContent += msg + '\n'; }
+
+log('ort available: ' + (typeof ort !== 'undefined'));
+log('ort.InferenceSession: ' + (typeof ort.InferenceSession));
+log('');
+
+(async function() {
+  try {
+    log('Trying to load model from: modules/model/best.onnx');
+    log('Full URL: ' + new URL('modules/model/best.onnx', location.href).href);
+    
+    var session = await ort.InferenceSession.create('modules/model/best.onnx', {
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all'
+    });
+    
+    log('SUCCESS! Model loaded.');
+    log('Inputs: ' + JSON.stringify(session.inputNames));
+    log('Outputs: ' + JSON.stringify(session.outputNames));
+  } catch(e) {
+    log('FAILED: ' + e.message);
+    log('Stack: ' + (e.stack || 'none'));
+    log('Error type: ' + e.constructor.name);
+  }
+})();
+</script>
+</body></html>

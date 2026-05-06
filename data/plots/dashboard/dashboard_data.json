@@ -1,0 +1,504 @@
+{
+  "generated": "2026-04-13 16:07",
+  "total_stations": 112,
+  "total_records": 223893,
+  "monthly_taiyuan": [
+    {
+      "month": "2024-10",
+      "temp_avg": 11.6,
+      "hum_avg": 69.6,
+      "temp_max": 24.2,
+      "temp_min": -1.0
+    },
+    {
+      "month": "2024-11",
+      "temp_avg": 6.3,
+      "hum_avg": 63.6,
+      "temp_max": 17.9,
+      "temp_min": -5.7
+    },
+    {
+      "month": "2024-12",
+      "temp_avg": -3.1,
+      "hum_avg": 45.6,
+      "temp_max": 12.3,
+      "temp_min": -15.1
+    },
+    {
+      "month": "2025-01",
+      "temp_avg": -5.2,
+      "hum_avg": 49.1,
+      "temp_max": 5.4,
+      "temp_min": -10.0
+    }
+  ],
+  "stations_summary": [
+    {
+      "name": "万荣站",
+      "count": 2000,
+      "temp_avg": 7.3,
+      "hum_avg": 58.6,
+      "temp_max": 27.9,
+      "temp_min": -9.9,
+      "hum_max": 100.0,
+      "hum_min": 11.0
+    },
+    {
+      "name": "上党站",
+      "count": 2000,
+      "temp_avg": 4.7,
+      "hum_avg": 52.7,
+      "temp_max": 24.2,
+      "temp_min": -10.4,
+      "hum_max": 100.0,
+      "hum_min": 9.0
+    },
+    {
+      "name": "中阳站",
+      "count": 2000,
+      "temp_avg": 2.1,
+      "hum_avg": 61.3,
+      "temp_max": 23.2,
+      "temp_min": -15.4,
+      "hum_max": 97.0,
+      "hum_min": 13.0
+    },
+    {
+      "name": "临县站",
+      "count": 2000,
+      "temp_avg": 2.4,
+      "hum_avg": 59.7,
+      "temp_max": 24.0,
+      "temp_min": -15.8,
+      "hum_max": 100.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "临汾站",
+      "count": 2000,
+      "temp_avg": 7.4,
+      "hum_avg": 58.5,
+      "temp_max": 28.5,
+      "temp_min": -9.0,
+      "hum_max": 98.0,
+      "hum_min": 16.0
+    },
+    {
+      "name": "临猗站",
+      "count": 2000,
+      "temp_avg": 8.0,
+      "hum_avg": 58.4,
+      "temp_max": 27.8,
+      "temp_min": -9.4,
+      "hum_max": 98.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "乡宁站",
+      "count": 2000,
+      "temp_avg": 3.9,
+      "hum_avg": 55.7,
+      "temp_max": 22.5,
+      "temp_min": -12.9,
+      "hum_max": 99.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "云州站",
+      "count": 2000,
+      "temp_avg": -4.0,
+      "hum_avg": 60.7,
+      "temp_max": 21.3,
+      "temp_min": -23.3,
+      "hum_max": 100.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "五台山中台站",
+      "count": 2000,
+      "temp_avg": -9.0,
+      "hum_avg": 73.2,
+      "temp_max": 8.3,
+      "temp_min": -27.2,
+      "hum_max": 100.0,
+      "hum_min": 7.0
+    },
+    {
+      "name": "五台山站",
+      "count": 2000,
+      "temp_avg": -3.8,
+      "hum_avg": 62.0,
+      "temp_max": 12.9,
+      "temp_min": -20.7,
+      "hum_max": 100.0,
+      "hum_min": 11.0
+    },
+    {
+      "name": "五台站",
+      "count": 2000,
+      "temp_avg": 0.2,
+      "hum_avg": 59.8,
+      "temp_max": 22.3,
+      "temp_min": -20.0,
+      "hum_max": 98.0,
+      "hum_min": 13.0
+    },
+    {
+      "name": "五寨站",
+      "count": 2000,
+      "temp_avg": -0.6,
+      "hum_avg": 62.6,
+      "temp_max": 22.5,
+      "temp_min": -21.8,
+      "hum_max": 100.0,
+      "hum_min": 12.0
+    },
+    {
+      "name": "交口站",
+      "count": 1977,
+      "temp_avg": 1.8,
+      "hum_avg": 62.1,
+      "temp_max": 21.1,
+      "temp_min": -14.8,
+      "hum_max": 100.0,
+      "hum_min": 10.0
+    },
+    {
+      "name": "交城站",
+      "count": 2000,
+      "temp_avg": 4.0,
+      "hum_avg": 62.9,
+      "temp_max": 24.1,
+      "temp_min": -14.6,
+      "hum_max": 100.0,
+      "hum_min": 12.0
+    },
+    {
+      "name": "介休站",
+      "count": 2000,
+      "temp_avg": 5.5,
+      "hum_avg": 59.0,
+      "temp_max": 26.3,
+      "temp_min": -12.6,
+      "hum_max": 100.0,
+      "hum_min": 7.0
+    },
+    {
+      "name": "代县站",
+      "count": 2000,
+      "temp_avg": 2.6,
+      "hum_avg": 56.1,
+      "temp_max": 22.9,
+      "temp_min": -15.8,
+      "hum_max": 98.0,
+      "hum_min": 12.0
+    },
+    {
+      "name": "侯马站",
+      "count": 2000,
+      "temp_avg": 7.3,
+      "hum_avg": 62.8,
+      "temp_max": 29.0,
+      "temp_min": -10.4,
+      "hum_max": 99.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "保德站",
+      "count": 2000,
+      "temp_avg": 2.5,
+      "hum_avg": 62.2,
+      "temp_max": 22.6,
+      "temp_min": -15.5,
+      "hum_max": 98.0,
+      "hum_min": 18.0
+    },
+    {
+      "name": "偏关站",
+      "count": 2000,
+      "temp_avg": -1.9,
+      "hum_avg": 58.4,
+      "temp_max": 22.4,
+      "temp_min": -19.5,
+      "hum_max": 99.0,
+      "hum_min": 13.0
+    },
+    {
+      "name": "兴县站",
+      "count": 1984,
+      "temp_avg": 2.8,
+      "hum_avg": 60.9,
+      "temp_max": 23.9,
+      "temp_min": -16.2,
+      "hum_max": 100.0,
+      "hum_min": 15.0
+    },
+    {
+      "name": "原平站",
+      "count": 2000,
+      "temp_avg": 3.7,
+      "hum_avg": 51.8,
+      "temp_max": 23.4,
+      "temp_min": -12.9,
+      "hum_max": 97.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "古交站",
+      "count": 2000,
+      "temp_avg": 2.9,
+      "hum_avg": 55.2,
+      "temp_max": 24.0,
+      "temp_min": -16.3,
+      "hum_max": 96.0,
+      "hum_min": 9.0
+    },
+    {
+      "name": "古县站",
+      "count": 2000,
+      "temp_avg": 5.6,
+      "hum_avg": 60.8,
+      "temp_max": 27.8,
+      "temp_min": -13.5,
+      "hum_max": 100.0,
+      "hum_min": 16.0
+    },
+    {
+      "name": "右玉站",
+      "count": 2000,
+      "temp_avg": -5.4,
+      "hum_avg": 65.8,
+      "temp_max": 22.1,
+      "temp_min": -25.4,
+      "hum_max": 99.0,
+      "hum_min": 14.0
+    },
+    {
+      "name": "吉县站",
+      "count": 2000,
+      "temp_avg": 4.3,
+      "hum_avg": 62.8,
+      "temp_max": 25.7,
+      "temp_min": -13.6,
+      "hum_max": 99.0,
+      "hum_min": 12.0
+    },
+    {
+      "name": "和顺站",
+      "count": 2000,
+      "temp_avg": 1.6,
+      "hum_avg": 57.8,
+      "temp_max": 22.4,
+      "temp_min": -18.5,
+      "hum_max": 98.0,
+      "hum_min": 9.0
+    },
+    {
+      "name": "垣曲站",
+      "count": 2000,
+      "temp_avg": 7.8,
+      "hum_avg": 58.7,
+      "temp_max": 27.0,
+      "temp_min": -10.0,
+      "hum_max": 100.0,
+      "hum_min": 10.0
+    },
+    {
+      "name": "壶关站",
+      "count": 2000,
+      "temp_avg": 4.1,
+      "hum_avg": 56.4,
+      "temp_max": 23.0,
+      "temp_min": -11.9,
+      "hum_max": 99.0,
+      "hum_min": 12.0
+    },
+    {
+      "name": "夏县站",
+      "count": 2000,
+      "temp_avg": 6.9,
+      "hum_avg": 68.2,
+      "temp_max": 29.3,
+      "temp_min": -13.5,
+      "hum_max": 100.0,
+      "hum_min": 15.0
+    },
+    {
+      "name": "大同站",
+      "count": 2000,
+      "temp_avg": -3.6,
+      "hum_avg": 59.9,
+      "temp_max": 21.2,
+      "temp_min": -22.8,
+      "hum_max": 99.0,
+      "hum_min": 15.0
+    }
+  ],
+  "map_stations": [
+    {
+      "name": "临汾站",
+      "lng": 111.52,
+      "lat": 36.08,
+      "temp": 7.4,
+      "hum": 58.5,
+      "health": 95
+    },
+    {
+      "name": "介休站",
+      "lng": 111.92,
+      "lat": 37.03,
+      "temp": 5.5,
+      "hum": 59.0,
+      "health": 95
+    },
+    {
+      "name": "侯马站",
+      "lng": 111.37,
+      "lat": 35.62,
+      "temp": 7.3,
+      "hum": 62.8,
+      "health": 95
+    },
+    {
+      "name": "古交站",
+      "lng": 112.16,
+      "lat": 37.91,
+      "temp": 2.9,
+      "hum": 55.2,
+      "health": 95
+    },
+    {
+      "name": "古县站",
+      "lng": 111.91,
+      "lat": 36.18,
+      "temp": 5.6,
+      "hum": 60.8,
+      "health": 95
+    },
+    {
+      "name": "大同站",
+      "lng": 113.3,
+      "lat": 40.09,
+      "temp": -3.6,
+      "hum": 59.9,
+      "health": 95
+    },
+    {
+      "name": "太原站",
+      "lng": 112.53,
+      "lat": 37.87,
+      "temp": 4.1,
+      "hum": 58.4,
+      "health": 95
+    },
+    {
+      "name": "太谷站",
+      "lng": 112.55,
+      "lat": 37.42,
+      "temp": 4.2,
+      "hum": 60.4,
+      "health": 95
+    },
+    {
+      "name": "孝义站",
+      "lng": 111.78,
+      "lat": 37.15,
+      "temp": 5.1,
+      "hum": 57.8,
+      "health": 95
+    },
+    {
+      "name": "平遥站",
+      "lng": 112.18,
+      "lat": 37.19,
+      "temp": 5.2,
+      "hum": 57.8,
+      "health": 95
+    },
+    {
+      "name": "忻府站",
+      "lng": 112.73,
+      "lat": 38.42,
+      "temp": -0.8,
+      "hum": 51.6,
+      "health": 95
+    },
+    {
+      "name": "晋城站",
+      "lng": 112.85,
+      "lat": 35.5,
+      "temp": 6.4,
+      "hum": 55.0,
+      "health": 95
+    },
+    {
+      "name": "朔州站",
+      "lng": 112.43,
+      "lat": 39.33,
+      "temp": -7.1,
+      "hum": 1171.1,
+      "health": 95
+    },
+    {
+      "name": "永济站",
+      "lng": 110.45,
+      "lat": 34.87,
+      "temp": 8.3,
+      "hum": 64.0,
+      "health": 95
+    },
+    {
+      "name": "汾阳站",
+      "lng": 111.78,
+      "lat": 37.27,
+      "temp": 4.8,
+      "hum": 59.1,
+      "health": 95
+    },
+    {
+      "name": "河津站",
+      "lng": 110.7,
+      "lat": 35.6,
+      "temp": 8.3,
+      "hum": 55.4,
+      "health": 95
+    },
+    {
+      "name": "离石站",
+      "lng": 111.13,
+      "lat": 37.52,
+      "temp": 3.5,
+      "hum": 60.7,
+      "health": 95
+    },
+    {
+      "name": "运城站",
+      "lng": 111.0,
+      "lat": 35.03,
+      "temp": 7.8,
+      "hum": 63.0,
+      "health": 95
+    },
+    {
+      "name": "阳泉站",
+      "lng": 113.57,
+      "lat": 37.86,
+      "temp": 4.6,
+      "hum": 57.1,
+      "health": 95
+    },
+    {
+      "name": "霍州站",
+      "lng": 111.75,
+      "lat": 36.57,
+      "temp": 5.9,
+      "hum": 61.2,
+      "health": 95
+    }
+  ],
+  "env_trend_latest": {
+    "temp": -3.5,
+    "hum": 38.1,
+    "time": "2025-01-01 14"
+  }
+}

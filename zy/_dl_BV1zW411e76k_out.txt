@@ -1,0 +1,16 @@
+STDOUT:
+[BiliBili] Extracting URL: https://www.bilibili.com/video/BV1zW411e76k
+[BiliBili] 1zW411e76k: Downloading webpage
+[BiliBili] BV1zW411e76k: Extracting videos in anthology
+[BiliBili] BV1zW411e76k: Downloading wbi sign
+[BiliBili] BV1zW411e76k: Downloading video formats for cid 30641736
+[BiliBili] 18787380: Extracting chapters
+[info] BV1zW411e76k: Downloading 1 format(s): 30033+30216
+[download] arch_no_nails.f30033.mp4 has already been downloaded
+[download] 100% of    5.21MiB
+[download] arch_no_nails.f30216.m4a has already been downloaded
+[download] 100% of    1.16MiB
+
+STDERR:
+WARNING: You have requested merging of multiple formats but ffmpeg is not installed. The formats won't be merged
+

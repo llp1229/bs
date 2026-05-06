@@ -1,0 +1,17 @@
+STDOUT:
+[BiliBili] Extracting URL: https://www.bilibili.com/video/BV12D4y1B7ea
+[BiliBili] 12D4y1B7ea: Downloading webpage
+[BiliBili] BV12D4y1B7ea: Extracting videos in anthology
+[BiliBili] BV12D4y1B7ea: Downloading wbi sign
+[BiliBili] BV12D4y1B7ea: Downloading video formats for cid 823723929
+[BiliBili] Format(s) 1080P ������ are missing; you have to become a premium member to download them. Use --cookies-from-browser or --cookies for the authentication. See  https://github.com/yt-dlp/yt-dlp/wiki/FAQ#how-do-i-pass-cookies-to-yt-dlp  for how to manually pass cookies
+[BiliBili] 730189566: Extracting chapters
+[info] BV12D4y1B7ea: Downloading 1 format(s): 30032+30280
+[download] Destination: tenon_mortise.f30032.mp4
+[download]   0.0% of   11.83MiB at  458.19KiB/s ETA 00:26[download]   0.0% of   11.83MiB at    1.09MiB/s ETA 00:10[download]   0.1% of   11.83MiB at    2.39MiB/s ETA 00:04[download]   0.1% of   11.83MiB at    4.86MiB/s ETA 00:02[download]   0.3% of   11.83MiB at    9.45MiB/s ETA 00:01[download]   0.5% of   11.83MiB at    1.83MiB/s ETA 00:06[download]   1.0% of   11.83MiB at    3.29MiB/s ETA 00:03[download]   2.1% of   11.83MiB at    3.36MiB/s ETA 00:03[download]   4.2% of   11.83MiB at    4.56MiB/s ETA 00:02[download]   8.4% of   11.83MiB at    7.01MiB/s ETA 00:01[download]  16.9% of   11.83MiB at   11.03MiB/s ETA 00:00[download]  33.8% of   11.83MiB at   16.33MiB/s ETA 00:00[download]  67.6% of   11.83MiB at   24.61MiB/s ETA 00:00[download] 100.0% of   11.83MiB at   21.16MiB/s ETA 00:00[download] 100% of   11.83MiB in 00:00:00 at 13.56MiB/s  
+[download] tenon_mortise.f30280.m4a has already been downloaded
+[download] 100% of    5.27MiB
+
+STDERR:
+WARNING: You have requested merging of multiple formats but ffmpeg is not installed. The formats won't be merged
+

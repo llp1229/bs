@@ -1,0 +1,1882 @@
+{
+  "太原站": {
+    "station": "太原站",
+    "desc": "山西省会",
+    "updated": "2026-04-13 16:39:07",
+    "current": {
+      "temp": 16.1,
+      "humidity": 49,
+      "precipitation": 0.0,
+      "wind_speed": 2.7,
+      "pressure": 924.0,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 16.9,
+        "temp_min": 11.9,
+        "rain_prob": 35,
+        "rain_sum": 0.5,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 21.3,
+        "temp_min": 7.6,
+        "rain_prob": 18,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 21.6,
+        "temp_min": 6.9,
+        "rain_prob": 55,
+        "rain_sum": 2.1,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 16.3,
+        "temp_min": 9.6,
+        "rain_prob": 55,
+        "rain_sum": 3.2,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 21.4,
+        "temp_min": 7.1,
+        "rain_prob": 2,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 23.4,
+        "temp_min": 11.3,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 21.2,
+        "temp_min": 11.3,
+        "rain_prob": 23,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "大同站": {
+    "station": "大同站",
+    "desc": "晋北严寒",
+    "updated": "2026-04-13 16:39:08",
+    "current": {
+      "temp": 15.6,
+      "humidity": 55,
+      "precipitation": 0.0,
+      "wind_speed": 2.7,
+      "pressure": 894.7,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 15.8,
+        "temp_min": 11.5,
+        "rain_prob": 78,
+        "rain_sum": 2.1,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 20.9,
+        "temp_min": 8.5,
+        "rain_prob": 25,
+        "rain_sum": 0.9,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 23.1,
+        "temp_min": 10.7,
+        "rain_prob": 13,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 19.3,
+        "temp_min": 11.9,
+        "rain_prob": 53,
+        "rain_sum": 1.5,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 23.7,
+        "temp_min": 10.0,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 24.8,
+        "temp_min": 12.2,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 16.3,
+        "temp_min": 5.4,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "临汾站": {
+    "station": "临汾站",
+    "desc": "晋南温暖",
+    "updated": "2026-04-13 16:39:09",
+    "current": {
+      "temp": 17.5,
+      "humidity": 60,
+      "precipitation": 0.0,
+      "wind_speed": 2.2,
+      "pressure": 960.7,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 17.6,
+        "temp_min": 14.1,
+        "rain_prob": 68,
+        "rain_sum": 3.1,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 21.0,
+        "temp_min": 10.9,
+        "rain_prob": 5,
+        "rain_sum": 0.9,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 22.4,
+        "temp_min": 12.5,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 20.0,
+        "temp_min": 13.6,
+        "rain_prob": 31,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 23.8,
+        "temp_min": 13.2,
+        "rain_prob": 1,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 24.5,
+        "temp_min": 13.5,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "多云",
+        "weather_code": 2
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 25.5,
+        "temp_min": 15.8,
+        "rain_prob": 2,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "运城站": {
+    "station": "运城站",
+    "desc": "晋南最暖",
+    "updated": "2026-04-13 16:39:10",
+    "current": {
+      "temp": 22.1,
+      "humidity": 37,
+      "precipitation": 0.0,
+      "wind_speed": 4.4,
+      "pressure": 970.0,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 22.1,
+        "temp_min": 17.8,
+        "rain_prob": 25,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 24.7,
+        "temp_min": 14.3,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 26.6,
+        "temp_min": 14.0,
+        "rain_prob": 15,
+        "rain_sum": 0.1,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 23.1,
+        "temp_min": 17.1,
+        "rain_prob": 15,
+        "rain_sum": 0.1,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 28.6,
+        "temp_min": 14.1,
+        "rain_prob": 1,
+        "rain_sum": 0.0,
+        "weather": "多云",
+        "weather_code": 2
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 30.4,
+        "temp_min": 17.6,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 29.3,
+        "temp_min": 19.2,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "长治站": {
+    "station": "长治站",
+    "desc": "晋东南",
+    "updated": "2026-04-13 16:39:11",
+    "current": {
+      "temp": 17.6,
+      "humidity": 41,
+      "precipitation": 0.0,
+      "wind_speed": 3.9,
+      "pressure": 908.2,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 20.6,
+        "temp_min": 12.2,
+        "rain_prob": 20,
+        "rain_sum": 0.1,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 21.7,
+        "temp_min": 9.4,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 23.0,
+        "temp_min": 10.0,
+        "rain_prob": 13,
+        "rain_sum": 0.1,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 21.5,
+        "temp_min": 11.6,
+        "rain_prob": 18,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 24.7,
+        "temp_min": 9.8,
+        "rain_prob": 8,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 25.1,
+        "temp_min": 10.7,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 25.4,
+        "temp_min": 12.9,
+        "rain_prob": 11,
+        "rain_sum": 2.7,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "晋城站": {
+    "station": "晋城站",
+    "desc": "晋城",
+    "updated": "2026-04-13 16:39:12",
+    "current": {
+      "temp": 18.4,
+      "humidity": 49,
+      "precipitation": 0.0,
+      "wind_speed": 4.6,
+      "pressure": 931.4,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 19.2,
+        "temp_min": 13.1,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 20.6,
+        "temp_min": 10.2,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 20.4,
+        "temp_min": 9.9,
+        "rain_prob": 13,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 21.7,
+        "temp_min": 12.3,
+        "rain_prob": 18,
+        "rain_sum": 0.1,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 24.2,
+        "temp_min": 11.3,
+        "rain_prob": 0,
+        "rain_sum": 0.3,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 22.8,
+        "temp_min": 11.4,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 24.8,
+        "temp_min": 12.8,
+        "rain_prob": 4,
+        "rain_sum": 3.6,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "忻府站": {
+    "station": "忻府站",
+    "desc": "五台山脚下",
+    "updated": "2026-04-13 16:39:13",
+    "current": {
+      "temp": 17.6,
+      "humidity": 60,
+      "precipitation": 0.2,
+      "wind_speed": 2.9,
+      "pressure": 923.6,
+      "weather": "小雨",
+      "weather_code": 61
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 21.3,
+        "temp_min": 12.0,
+        "rain_prob": 80,
+        "rain_sum": 0.9,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 23.8,
+        "temp_min": 8.1,
+        "rain_prob": 18,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 24.1,
+        "temp_min": 6.4,
+        "rain_prob": 45,
+        "rain_sum": 0.2,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 19.7,
+        "temp_min": 11.8,
+        "rain_prob": 60,
+        "rain_sum": 3.3,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 25.1,
+        "temp_min": 6.9,
+        "rain_prob": 1,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 26.8,
+        "temp_min": 8.5,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 23.9,
+        "temp_min": 11.4,
+        "rain_prob": 30,
+        "rain_sum": 1.5,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "晋中站": {
+    "station": "晋中站",
+    "desc": "晋中平原地带",
+    "updated": "2026-04-13 16:39:15",
+    "current": {
+      "temp": 20.7,
+      "humidity": 35,
+      "precipitation": 0.0,
+      "wind_speed": 5.1,
+      "pressure": 922.3,
+      "weather": "多云",
+      "weather_code": 2
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 20.8,
+        "temp_min": 14.7,
+        "rain_prob": 13,
+        "rain_sum": 0.1,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 24.3,
+        "temp_min": 10.9,
+        "rain_prob": 23,
+        "rain_sum": 0.4,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 24.2,
+        "temp_min": 9.2,
+        "rain_prob": 28,
+        "rain_sum": 1.4,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 18.7,
+        "temp_min": 12.8,
+        "rain_prob": 38,
+        "rain_sum": 3.7,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 25.1,
+        "temp_min": 8.8,
+        "rain_prob": 2,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 27.1,
+        "temp_min": 10.9,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 25.5,
+        "temp_min": 13.7,
+        "rain_prob": 12,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "吕梁站": {
+    "station": "吕梁站",
+    "desc": "吕梁山区",
+    "updated": "2026-04-13 16:39:16",
+    "current": {
+      "temp": 20.7,
+      "humidity": 39,
+      "precipitation": 0.0,
+      "wind_speed": 4.0,
+      "pressure": 908.4,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 22.0,
+        "temp_min": 14.7,
+        "rain_prob": 10,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 23.6,
+        "temp_min": 11.0,
+        "rain_prob": 8,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 24.9,
+        "temp_min": 8.6,
+        "rain_prob": 53,
+        "rain_sum": 2.4,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 20.0,
+        "temp_min": 13.6,
+        "rain_prob": 70,
+        "rain_sum": 5.6,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 24.3,
+        "temp_min": 8.4,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 26.6,
+        "temp_min": 11.1,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 23.0,
+        "temp_min": 15.5,
+        "rain_prob": 9,
+        "rain_sum": 0.6,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "阳泉站": {
+    "station": "阳泉站",
+    "desc": "晋东能源",
+    "updated": "2026-04-13 16:39:21",
+    "current": {
+      "temp": 14.4,
+      "humidity": 66,
+      "precipitation": 0.0,
+      "wind_speed": 2.8,
+      "pressure": 937.8,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 16.9,
+        "temp_min": 10.9,
+        "rain_prob": 38,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 22.6,
+        "temp_min": 9.0,
+        "rain_prob": 25,
+        "rain_sum": 0.7,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 21.5,
+        "temp_min": 11.1,
+        "rain_prob": 23,
+        "rain_sum": 7.5,
+        "weather": "雷暴",
+        "weather_code": 95
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 17.4,
+        "temp_min": 11.7,
+        "rain_prob": 41,
+        "rain_sum": 1.7,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 24.0,
+        "temp_min": 11.4,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 25.7,
+        "temp_min": 10.8,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 23.4,
+        "temp_min": 13.4,
+        "rain_prob": 22,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 1,
+      "reasons": [
+        "湿度偏高，需加强通风"
+      ]
+    }
+  },
+  "朔州站": {
+    "station": "朔州站",
+    "desc": "晋北草原气候",
+    "updated": "2026-04-13 16:39:23",
+    "current": {
+      "temp": 15.9,
+      "humidity": 63,
+      "precipitation": 0.0,
+      "wind_speed": 2.1,
+      "pressure": 891.3,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 16.1,
+        "temp_min": 11.0,
+        "rain_prob": 73,
+        "rain_sum": 2.7,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 20.5,
+        "temp_min": 9.3,
+        "rain_prob": 13,
+        "rain_sum": 0.3,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 21.4,
+        "temp_min": 7.1,
+        "rain_prob": 30,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 18.3,
+        "temp_min": 11.0,
+        "rain_prob": 50,
+        "rain_sum": 0.4,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 23.1,
+        "temp_min": 8.8,
+        "rain_prob": 1,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 25.3,
+        "temp_min": 10.0,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 18.2,
+        "temp_min": 7.5,
+        "rain_prob": 23,
+        "rain_sum": 2.4,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "汾阳站": {
+    "station": "汾阳站",
+    "desc": "汾阳",
+    "updated": "2026-04-13 16:39:24",
+    "current": {
+      "temp": 16.9,
+      "humidity": 40,
+      "precipitation": 0.0,
+      "wind_speed": 4.2,
+      "pressure": 925.7,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 17.2,
+        "temp_min": 11.2,
+        "rain_prob": 38,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 21.0,
+        "temp_min": 7.4,
+        "rain_prob": 20,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 20.6,
+        "temp_min": 8.0,
+        "rain_prob": 55,
+        "rain_sum": 6.7,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 15.5,
+        "temp_min": 9.8,
+        "rain_prob": 75,
+        "rain_sum": 2.2,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 20.5,
+        "temp_min": 8.3,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 22.0,
+        "temp_min": 11.2,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 20.7,
+        "temp_min": 12.7,
+        "rain_prob": 15,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "太谷站": {
+    "station": "太谷站",
+    "desc": "晋商故里",
+    "updated": "2026-04-13 16:39:26",
+    "current": {
+      "temp": 20.5,
+      "humidity": 36,
+      "precipitation": 0.0,
+      "wind_speed": 4.5,
+      "pressure": 923.5,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 21.4,
+        "temp_min": 13.5,
+        "rain_prob": 10,
+        "rain_sum": 0.1,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 24.4,
+        "temp_min": 11.9,
+        "rain_prob": 23,
+        "rain_sum": 0.2,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 24.6,
+        "temp_min": 10.2,
+        "rain_prob": 45,
+        "rain_sum": 3.0,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 19.0,
+        "temp_min": 12.4,
+        "rain_prob": 44,
+        "rain_sum": 2.1,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 25.4,
+        "temp_min": 8.6,
+        "rain_prob": 1,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 27.3,
+        "temp_min": 9.1,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 26.3,
+        "temp_min": 13.9,
+        "rain_prob": 10,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "平遥站": {
+    "station": "平遥站",
+    "desc": "平遥古城",
+    "updated": "2026-04-13 16:39:29",
+    "current": {
+      "temp": 21.1,
+      "humidity": 35,
+      "precipitation": 0.0,
+      "wind_speed": 2.5,
+      "pressure": 926.1,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 21.5,
+        "temp_min": 14.3,
+        "rain_prob": 15,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 25.1,
+        "temp_min": 11.6,
+        "rain_prob": 15,
+        "rain_sum": 0.2,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 25.3,
+        "temp_min": 9.5,
+        "rain_prob": 25,
+        "rain_sum": 2.3,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 18.6,
+        "temp_min": 12.8,
+        "rain_prob": 45,
+        "rain_sum": 1.9,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 25.5,
+        "temp_min": 8.6,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 27.5,
+        "temp_min": 8.4,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 26.1,
+        "temp_min": 15.4,
+        "rain_prob": 12,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "侯马站": {
+    "station": "侯马站",
+    "desc": "晋南",
+    "updated": "2026-04-13 16:39:32",
+    "current": {
+      "temp": 23.2,
+      "humidity": 33,
+      "precipitation": 0.0,
+      "wind_speed": 2.5,
+      "pressure": 963.3,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 23.5,
+        "temp_min": 16.2,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 25.1,
+        "temp_min": 12.3,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 26.9,
+        "temp_min": 12.6,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 24.0,
+        "temp_min": 15.6,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 28.6,
+        "temp_min": 12.6,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 29.4,
+        "temp_min": 13.8,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "多云",
+        "weather_code": 2
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 28.5,
+        "temp_min": 16.2,
+        "rain_prob": 9,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "霍州站": {
+    "station": "霍州站",
+    "desc": "汾河谷地",
+    "updated": "2026-04-13 16:39:33",
+    "current": {
+      "temp": 20.6,
+      "humidity": 49,
+      "precipitation": 0.0,
+      "wind_speed": 3.3,
+      "pressure": 945.5,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 20.6,
+        "temp_min": 14.5,
+        "rain_prob": 83,
+        "rain_sum": 0.7,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 23.6,
+        "temp_min": 12.4,
+        "rain_prob": 23,
+        "rain_sum": 0.3,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 25.5,
+        "temp_min": 10.3,
+        "rain_prob": 40,
+        "rain_sum": 1.4,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 21.2,
+        "temp_min": 12.5,
+        "rain_prob": 45,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 27.2,
+        "temp_min": 8.5,
+        "rain_prob": 2,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 27.8,
+        "temp_min": 11.5,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 27.5,
+        "temp_min": 15.5,
+        "rain_prob": 5,
+        "rain_sum": 0.3,
+        "weather": "小雨",
+        "weather_code": 61
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "古县站": {
+    "station": "古县站",
+    "desc": "古县",
+    "updated": "2026-04-13 16:39:35",
+    "current": {
+      "temp": 19.7,
+      "humidity": 62,
+      "precipitation": 0.0,
+      "wind_speed": 2.3,
+      "pressure": 924.0,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 19.9,
+        "temp_min": 15.3,
+        "rain_prob": 15,
+        "rain_sum": 0.3,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 24.2,
+        "temp_min": 11.1,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 26.6,
+        "temp_min": 11.9,
+        "rain_prob": 18,
+        "rain_sum": 0.4,
+        "weather": "阵雨",
+        "weather_code": 80
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 22.8,
+        "temp_min": 14.2,
+        "rain_prob": 19,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 27.4,
+        "temp_min": 11.1,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 28.7,
+        "temp_min": 12.0,
+        "rain_prob": 0,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 27.7,
+        "temp_min": 14.8,
+        "rain_prob": 2,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "长子站": {
+    "station": "长子站",
+    "desc": "长治",
+    "updated": "2026-04-13 16:39:36",
+    "current": {
+      "temp": 16.3,
+      "humidity": 48,
+      "precipitation": 0.0,
+      "wind_speed": 2.0,
+      "pressure": 906.7,
+      "weather": "小雨",
+      "weather_code": 61
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 18.0,
+        "temp_min": 11.8,
+        "rain_prob": 20,
+        "rain_sum": 0.6,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 20.5,
+        "temp_min": 7.8,
+        "rain_prob": 28,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 21.1,
+        "temp_min": 8.6,
+        "rain_prob": 13,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 19.6,
+        "temp_min": 10.8,
+        "rain_prob": 18,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 23.4,
+        "temp_min": 8.8,
+        "rain_prob": 8,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 23.8,
+        "temp_min": 9.4,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "多云",
+        "weather_code": 2
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 23.5,
+        "temp_min": 12.3,
+        "rain_prob": 11,
+        "rain_sum": 1.8,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "黎城站": {
+    "station": "黎城站",
+    "desc": "晋东南",
+    "updated": "2026-04-13 16:39:39",
+    "current": {
+      "temp": 17.9,
+      "humidity": 51,
+      "precipitation": 0.1,
+      "wind_speed": 4.2,
+      "pressure": 929.8,
+      "weather": "小雨",
+      "weather_code": 61
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 21.2,
+        "temp_min": 13.9,
+        "rain_prob": 13,
+        "rain_sum": 0.5,
+        "weather": "小雨",
+        "weather_code": 61
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 23.5,
+        "temp_min": 9.9,
+        "rain_prob": 30,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 24.2,
+        "temp_min": 10.5,
+        "rain_prob": 20,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 22.8,
+        "temp_min": 13.2,
+        "rain_prob": 18,
+        "rain_sum": 0.0,
+        "weather": "雾",
+        "weather_code": 45
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 26.1,
+        "temp_min": 9.8,
+        "rain_prob": 10,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 27.6,
+        "temp_min": 11.1,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "晴",
+        "weather_code": 0
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 26.2,
+        "temp_min": 14.2,
+        "rain_prob": 10,
+        "rain_sum": 1.2,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  },
+  "壶关站": {
+    "station": "壶关站",
+    "desc": "长治",
+    "updated": "2026-04-13 16:39:43",
+    "current": {
+      "temp": 17.8,
+      "humidity": 39,
+      "precipitation": 0.0,
+      "wind_speed": 3.4,
+      "pressure": 898.7,
+      "weather": "阴",
+      "weather_code": 3
+    },
+    "forecast_7d": [
+      {
+        "date": "2026-04-13",
+        "day": "周日",
+        "temp_max": 20.4,
+        "temp_min": 12.0,
+        "rain_prob": 3,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-14",
+        "day": "周一",
+        "temp_max": 21.6,
+        "temp_min": 8.7,
+        "rain_prob": 8,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-15",
+        "day": "周二",
+        "temp_max": 23.1,
+        "temp_min": 8.7,
+        "rain_prob": 5,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-16",
+        "day": "周三",
+        "temp_max": 21.4,
+        "temp_min": 11.4,
+        "rain_prob": 13,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-17",
+        "day": "周四",
+        "temp_max": 24.8,
+        "temp_min": 8.9,
+        "rain_prob": 8,
+        "rain_sum": 0.0,
+        "weather": "阴",
+        "weather_code": 3
+      },
+      {
+        "date": "2026-04-18",
+        "day": "周五",
+        "temp_max": 24.9,
+        "temp_min": 9.4,
+        "rain_prob": 4,
+        "rain_sum": 0.0,
+        "weather": "晴间多云",
+        "weather_code": 1
+      },
+      {
+        "date": "2026-04-19",
+        "day": "周六",
+        "temp_max": 25.1,
+        "temp_min": 13.1,
+        "rain_prob": 10,
+        "rain_sum": 3.6,
+        "weather": "阵雨",
+        "weather_code": 80
+      }
+    ],
+    "risk": {
+      "level": "low",
+      "text": "低风险",
+      "score": 0,
+      "reasons": [
+        "环境条件良好，建筑病害风险低"
+      ]
+    }
+  }
+}
