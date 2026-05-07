@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import json
+from datetime import datetime
+
+# 系统启动时获取当前日期
+CURRENT_DATE = datetime.now().strftime('%Y年%m月%d日')
 
 app = Flask(__name__)
 CORS(app)
@@ -82,7 +86,7 @@ def chat():
                 "messages": [
                     {
                         "role": "system",
-                        "content": "你是山西古建筑养护专家，专注于古建筑保护、修缮和日常养护建议。回答要专业、实用、简洁。"
+                        "content": f"你是山西古建筑养护专家，今天是{CURRENT_DATE}。专注于古建筑保护、修缮和日常养护建议。回答要专业、实用、简洁。"
                     },
                     {
                         "role": "user",
@@ -141,7 +145,7 @@ def ask():
             "model": "qwen-turbo",
             "input": {
                 "messages": [
-                    {"role": "system", "content": "role: Shanxi ancient building conservation expert. Be professional, practical, concise."},
+                    {"role": "system", "content": f"role: Shanxi ancient building conservation expert. Today is {CURRENT_DATE}. Be professional, practical, concise."},
                     {"role": "user", "content": question}
                 ]
             }
