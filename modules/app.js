@@ -697,9 +697,17 @@ async function sendMsg() {
   hist.scrollTop = 99999;
 
   try {
+
+    // 注入天气上下文：将当前选中区县的实时温湿度风力发给AI
+    let weatherCtx = '';
+    const loc = selectedCountyName || (currentCityData ? currentCityData.name : null);
+    if (loc && MONITORING_DATA[loc]) {
+      const w = MONITORING_DATA[loc];
+      weatherCtx = '[当前' + loc + '天气：温度' + w.temp + '°C，湿度' + w.hum + '%，风力' + w.wind + '级] ';
+    }
     const r = await fetch('http://localhost:5188/api/ask', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({question: q})
+      body: JSON.stringify({question: weatherCtx + q})
     });
     const d = await r.json();
     const thinkEl = document.getElementById('thinkingMsg');
@@ -1222,4 +1230,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   renderForecast(null);  // 默认显示全省天气
   drawCharts();
+
+  // 每30分钟静默刷新天气，保持 MONITORING_DATA 实时
+  setInterval(function() { fetchRealWeather(); }, 1800000);
 });
