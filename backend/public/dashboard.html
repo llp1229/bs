@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>后台管理 - 山西古建筑监测系统</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0a1018;
+    color: #c8d8e8;
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    min-height: 100vh;
+  }
+  .header-bar {
+    background: linear-gradient(135deg, #0a2850, #0a3d7a);
+    padding: 0 32px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0,240,255,0.15);
+    box-shadow: 0 2px 20px rgba(0,120,200,0.2);
+  }
+  .header-bar h1 { color: #5ab4e0; font-size: 20px; letter-spacing: 3px; text-shadow: 0 0 8px rgba(0,120,200,0.4); }
+  .header-bar .back-link { color: #00f0ff; text-decoration: none; font-size: 14px; padding: 6px 16px; border: 1px solid rgba(0,240,255,0.3); border-radius: 20px; transition: all 0.3s; }
+  .header-bar .back-link:hover { background: rgba(0,240,255,0.1); border-color: #00f0ff; box-shadow: 0 0 12px rgba(0,240,255,0.3); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #0d1b2a;
+    border: 1px solid rgba(0,180,255,0.15);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(0,240,255,0.05);
+  }
+  .card-title { font-size: 16px; color: #5ab4e0; margin-bottom: 16px; letter-spacing: 2px; border-left: 3px solid #1a8fc4; padding-left: 10px; }
+  .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .stat-box { background: rgba(0,100,180,0.1); border: 1px solid rgba(0,180,255,0.12); border-radius: 8px; padding: 10px 16px; flex: 1; min-width: 120px; }
+  .stat-label { font-size: 12px; color: #6a8fa8; margin-bottom: 4px; }
+  .stat-val { font-size: 22px; font-weight: bold; color: #00f0ff; text-shadow: 0 0 8px rgba(0,240,255,0.3); }
+  .stat-val.warn { color: #f39c12; text-shadow: 0 0 8px rgba(243,156,18,0.3); }
+  .stat-val.danger { color: #e74c3c; text-shadow: 0 0 8px rgba(231,76,60,0.3); }
+  .progress-bar { background: rgba(0,80,120,0.3); border-radius: 6px; height: 8px; margin-top: 6px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 6px; transition: width 0.5s; }
+  .progress-fill.green { background: linear-gradient(90deg, #1abc9c, #2ecc71); }
+  .progress-fill.yellow { background: linear-gradient(90deg, #f39c12, #e67e22); }
+  .progress-fill.red { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+  .progress-label { font-size: 12px; color: #6a8fa8; margin-top: 4px; display: flex; justify-content: space-between; }
+  .msg-box { background: rgba(26,143,196,0.08); border: 1px solid rgba(0,180,255,0.1); border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #6a8fa8; margin-top: 8px; }
+  .msg-box.ok { border-color: rgba(46,204,113,0.3); color: #2ecc71; background: rgba(46,204,113,0.05); }
+  .msg-box.warn { border-color: rgba(243,156,18,0.3); color: #f39c12; background: rgba(243,156,18,0.05); }
+  .msg-box.error { border-color: rgba(231,76,60,0.3); color: #e74c3c; background: rgba(231,76,60,0.05); }
+  .pie-wrap { width: 100%; height: 220px; }
+  .server-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .server-item { background: rgba(0,100,180,0.1); border-radius: 8px; padding: 12px; text-align: center; }
+  .server-item .s-label { font-size: 11px; color: #6a8fa8; margin-bottom: 4px; }
+  .server-item .s-val { font-size: 20px; font-weight: bold; }
+  .detail-list { margin-top: 8px; }
+  .detail-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid rgba(0,180,255,0.06); font-size: 13px; }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row .d-label { color: #6a8fa8; }
+  .detail-row .d-val { color: #c8d8e8; }
+  .last-update { font-size: 11px; color: #4a6a7a; text-align: right; margin-top: 8px; }
+  .loading { color: #5ab4e0; font-size: 14px; }
+  @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .server-grid { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header-bar">
+  <h1>⚙️ 后台管理控制台</h1>
+  <a href="/" class="back-link">← 返回大屏</a>
+</div>
+
+<div class="grid">
+  <!-- ===== 高德API ===== -->
+  <div class="card">
+    <div class="card-title">📈 高德API 调用监控</div>
+    <div id="amap-loading" class="loading">加载中...</div>
+    <div id="amap-content" style="display:none">
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-label">今日调用次数</div>
+          <div class="stat-val" id="amap-today">--</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">今日剩余额度</div>
+          <div class="stat-val" id="amap-remain">--</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">每日额度上限</div>
+          <div class="stat-val">5000</div>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="amap-bar" style="width:0%"></div></div>
+      <div class="progress-label"><span id="amap-pct">--%</span><span>已使用</span></div>
+      <div class="msg-box" id="amap-msg"></div>
+      <div class="last-update">最后调用: <span id="amap-time">--</span></div>
+    </div>
+  </div>
+
+  <!-- ===== 通义千问 ===== -->
+  <div class="card">
+    <div class="card-title">💡 通义千问 API 监控</div>
+    <div id="qwen-loading" class="loading">加载中...</div>
+    <div id="qwen-content" style="display:none">
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-label">今日调用次数</div>
+          <div class="stat-val" id="qwen-today">--</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">今日Token消耗</div>
+          <div class="stat-val" id="qwen-tokens">--</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">当月剩余额度</div>
+          <div class="stat-val" id="qwen-remain">--</div>
+        </div>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="qwen-bar" style="width:0%"></div></div>
+      <div class="progress-label"><span id="qwen-pct">--%</span><span>当月已使用</span></div>
+      <div class="detail-list">
+        <div class="detail-row"><span class="d-label">当月调用次数</span><span class="d-val" id="qwen-month">--</span></div>
+        <div class="detail-row"><span class="d-label">当月Token消耗</span><span class="d-val" id="qwen-month-tokens">--</span></div>
+        <div class="detail-row"><span class="d-label">月额度上限</span><span class="d-val">1,000,000 Token</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 服务器状态 ===== -->
+  <div class="card">
+    <div class="card-title">💻 阿里云 ECS 服务器状态</div>
+    <div id="server-loading" class="loading">加载中...</div>
+    <div id="server-content" style="display:none">
+      <div class="server-grid">
+        <div class="server-item">
+          <div class="s-label">CPU 使用率</div>
+          <div class="s-val" id="srv-cpu" style="color:#00f0ff">--</div>
+        </div>
+        <div class="server-item">
+          <div class="s-label">内存使用率</div>
+          <div class="s-val" id="srv-mem" style="color:#00f0ff">--</div>
+        </div>
+        <div class="server-item">
+          <div class="s-label">磁盘使用率</div>
+          <div class="s-val" id="srv-disk" style="color:#00f0ff">--</div>
+        </div>
+      </div>
+      <div class="detail-list" style="margin-top:12px">
+        <div class="detail-row"><span class="d-label">公网IP</span><span class="d-val" id="srv-ip">--</span></div>
+        <div class="detail-row"><span class="d-label">运行时长</span><span class="d-val" id="srv-uptime">--</span></div>
+        <div class="detail-row"><span class="d-label">CPU 核心数</span><span class="d-val" id="srv-cores">--</span></div>
+        <div class="detail-row"><span class="d-label">内存总量</span><span class="d-val" id="srv-memtotal">--</span></div>
+      </div>
+      <div style="margin-top:12px;padding:10px;background:rgba(0,100,180,0.08);border-radius:8px;">
+        <div style="font-size:13px;color:#5ab4e0;margin-bottom:8px">💰 算力包余额</div>
+        <div class="detail-row"><span class="d-label">算力包剩余</span><span class="d-val" id="srv-budget-remain">--</span></div>
+        <div class="detail-row"><span class="d-label">算力包总额</span><span class="d-val" id="srv-budget-total">--</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="srv-bgt-bar" style="width:0%"></div></div>
+        <div class="detail-row"><span class="d-label">每小时消耗</span><span class="d-val" id="srv-hourly-rate" style="color:#f39c12;">--</span></div>
+        <div class="detail-row"><span class="d-label">流量包剩余</span><span class="d-val" id="srv-traffic-remain">--</span></div>
+      </div>
+      <div class="last-update">更新时间: <span id="srv-time">--</span></div>
+    </div>
+  </div>
+
+  <!-- ===== 山西天气饼图 ===== -->
+  <div class="card">
+    <div class="card-title">🏥 山西各地市天气分布</div>
+    <div id="weather-loading" class="loading">加载中...</div>
+    <div id="weather-content" style="display:none">
+      <div class="pie-wrap" id="weatherPieChart"></div>
+      <div class="detail-list" id="weatherDetail" style="margin-top:8px;max-height:160px;overflow-y:auto"></div>
+      <div class="last-update">更新时间: <span id="weather-time">--</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const REFRESH = 30000;
+
+// ===== 高德 =====
+async function loadAmap() {
+  try {
+    const r = await fetch('/api/amap/usage');
+    const d = await r.json();
+    document.getElementById('amap-loading').style.display = 'none';
+    document.getElementById('amap-content').style.display = 'block';
+    document.getElementById('amap-today').textContent = d.todayCalls;
+    document.getElementById('amap-remain').textContent = d.remainingCalls;
+    const pct = d.usedPercent;
+    const bar = document.getElementById('amap-bar');
+    bar.style.width = pct + '%';
+    bar.className = 'progress-fill ' + (pct > 80 ? 'red' : pct > 50 ? 'yellow' : 'green');
+    document.getElementById('amap-pct').textContent = pct + '%';
+    document.getElementById('amap-time').textContent = d.lastCallTime ? new Date(d.lastCallTime).toLocaleString('zh-CN') : '暂未调用';
+    const msg = document.getElementById('amap-msg');
+    msg.className = 'msg-box ' + (d.keyStatus === 'configured' ? 'ok' : 'warn');
+    msg.textContent = d.msg;
+  } catch(e) { console.error('高德API加载失败', e); }
+}
+
+// ===== 通义千问 =====
+async function loadQwen() {
+  try {
+    const r = await fetch('/api/qwen/usage');
+    const d = await r.json();
+    document.getElementById('qwen-loading').style.display = 'none';
+    document.getElementById('qwen-content').style.display = 'block';
+    document.getElementById('qwen-today').textContent = d.todayCalls;
+    document.getElementById('qwen-tokens').textContent = d.todayTokens.toLocaleString();
+    document.getElementById('qwen-remain').textContent = d.remainingTokens.toLocaleString() + ' Token';
+    document.getElementById('qwen-month').textContent = d.monthlyCalls;
+    document.getElementById('qwen-month-tokens').textContent = d.monthlyTokens.toLocaleString() + ' Token';
+    const pct = 100 - d.remainingPercent;
+    const bar = document.getElementById('qwen-bar');
+    bar.style.width = pct + '%';
+    bar.className = 'progress-fill ' + (pct > 80 ? 'red' : pct > 50 ? 'yellow' : 'green');
+    document.getElementById('qwen-pct').textContent = Math.round(pct * 100) / 100 + '%';
+  } catch(e) { console.error('通义千问API加载失败', e); }
+}
+
+// ===== 服务器状态 =====
+async function loadServer() {
+  try {
+    const r = await fetch('/api/server/status');
+    const d = await r.json();
+    document.getElementById('server-loading').style.display = 'none';
+    document.getElementById('server-content').style.display = 'block';
+    const cpu = d.cpu.usage;
+    const mem = d.memory.usage;
+    const disk = d.disk.usage;
+    document.getElementById('srv-cpu').textContent = cpu + '%';
+    document.getElementById('srv-cpu').style.color = cpu > 80 ? '#e74c3c' : cpu > 50 ? '#f39c12' : '#00f0ff';
+    document.getElementById('srv-mem').textContent = mem + '%';
+    document.getElementById('srv-mem').style.color = mem > 80 ? '#e74c3c' : mem > 50 ? '#f39c12' : '#00f0ff';
+    document.getElementById('srv-disk').textContent = (disk ? disk + '%' : '--');
+    document.getElementById('srv-ip').textContent = d.publicIP;
+    document.getElementById('srv-uptime').textContent = d.uptime + '秒 (' + Math.round(d.uptime/86400*10)/10 + '天)';
+    document.getElementById('srv-cores').textContent = d.cpu.cores + ' 核';
+    document.getElementById('srv-memtotal').textContent = d.memory.total + ' GB';
+    const bgt = d.budget;
+    if (bgt.total > 0) {
+      document.getElementById('srv-budget-remain').textContent = bgt.remaining + ' ' + bgt.unit;
+      document.getElementById('srv-budget-total').textContent = bgt.total + ' ' + bgt.unit;
+      const bgtPct = Math.round((bgt.total - bgt.remaining) / bgt.total * 100);
+      document.getElementById('srv-bgt-bar').style.width = bgtPct + '%';
+      document.getElementById('srv-bgt-bar').className = 'progress-fill ' + (bgtPct > 80 ? 'red' : bgtPct > 50 ? 'yellow' : 'green');
+      if (bgt.hourlyRate) {
+        document.getElementById('srv-hourly-rate').textContent = bgt.hourlyRate;
+      }
+    } else {
+      document.getElementById('srv-budget-remain').textContent = '📝 需配置';
+      document.getElementById('srv-budget-total').textContent = '';
+      document.getElementById('srv-bgt-bar').style.width = '0%';
+    }
+    if (d.traffic.total > 0) {
+      document.getElementById('srv-traffic-remain').textContent = d.traffic.used + '/' + d.traffic.total + ' ' + d.traffic.unit;
+    } else {
+      document.getElementById('srv-traffic-remain').textContent = '📝 需配置';
+    }
+    document.getElementById('srv-time').textContent = new Date(d.ts).toLocaleString('zh-CN');
+  } catch(e) { console.error('服务器状态加载失败', e); }
+}
+
+// ===== 天气饼图 =====
+let pieChart = null;
+async function loadWeather() {
+  try {
+    const r = await fetch('/api/weather/shanxi-pie');
+    const d = await r.json();
+    document.getElementById('weather-loading').style.display = 'none';
+    document.getElementById('weather-content').style.display = 'block';
+    if (!pieChart) pieChart = echarts.init(document.getElementById('weatherPieChart'));
+    const PIE_COLORS = {
+      '晴': '#f39c12', '少云': '#5ab4e0', '多云': '#7f8c8d',
+      '阴': '#95a5a6', '小雨': '#3498db', '中雨': '#2980b9',
+      '大雨': '#1a5276', '小雪': '#ecf0f1', '中雪': '#bdc3c7',
+      '大雪': '#7f8c8d', '轻雾': '#aed6f1', '重雾': '#5dade2',
+      '霾': '#bdc3c7', '未知': '#34495e'
+    };
+    const pieData = (d.weatherPie || []).map(item => ({
+      name: item.name,
+      value: item.value,
+      itemStyle: { color: PIE_COLORS[item.name] || '#5ab4e0' }
+    }));
+    pieChart.setOption({
+      tooltip: { trigger: 'item', formatter: '{b}: {c}个城市 ({d}%)', backgroundColor: '#0d1b2a', borderColor: '#1a8fc4', textStyle: { color: '#c8d8e8' } },
+      legend: { orient: 'vertical', right: 10, top: 10, textStyle: { color: '#6a8fa8', fontSize: 11 } },
+      series: [{ type: 'pie', radius: ['35%', '70%'], center: ['40%', '55%'], data: pieData, label: { formatter: '{b}\n{d}%', color: '#c8d8e8', fontSize: 10 }, itemStyle: { borderRadius: 4, borderColor: '#0a1018', borderWidth: 2 } }]
+    });
+    const detail = document.getElementById('weatherDetail');
+    detail.innerHTML = (d.cities || []).map(c =>
+      '<div class="detail-row"><span class="d-label">' + c.city + '</span><span class="d-val">' + c.weather + ' ' + c.temp + '℃ 湿度' + c.humidity + '%</span></div>'
+    ).join('');
+    document.getElementById('weather-time').textContent = new Date(d.updateTime).toLocaleString('zh-CN');
+  } catch(e) { console.error('天气加载失败', e); }
+}
+
+loadAmap(); loadQwen(); loadServer(); loadWeather();
+setInterval(function() { loadAmap(); loadQwen(); loadServer(); loadWeather(); }, REFRESH);
+window.addEventListener('resize', function() { if (pieChart) pieChart.resize(); });
+</script>
+</body>
+</html>

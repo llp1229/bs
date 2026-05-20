@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>山西古建筑健康监测系统 v5</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<link rel="stylesheet" href="modules/style.css">
+
+</head>
+<body>
+
+<!-- ====== TOP BAR = 系统名字 + 时钟 ====== -->
+<div class="top-bar">
+  <h1 class="sys-title">山西古建筑健康监测系统</h1>
+  <div class="top-right">
+    <span class="live-indicator"><i class="live-dot"></i> LIVE</span>
+    <span class="big-clock" id="clock">--:--:--</span>
+    <a href="/dashboard" class="settings-btn" title="管理后台">⚙️ 管理后台</a>
+  </div>
+</div>
+
+<!-- ====== MIDDLE: 左侧广告 | 中间小盒子(地图+AI) | 右侧监控 ====== -->
+<div class="middle-section">
+
+  <!-- 左侧广告视频 -->
+  <div class="side wing-left">
+    <div class="wing-header">🎬 古建筑风采</div>
+    <div class="wing-body">
+      <video src="zy/古建筑.mp4" autoplay loop muted playsinline></video>
+    </div>
+  </div>
+
+  <!-- ★ 中间小盒子（地图 + AI 并列）★ -->
+  <div class="inner-box">
+    <!-- 地图半区 -->
+    <div class="box-half map-half">
+      <div class="box-title">🗺️ 山西省 · 116区县监测点</div>
+      <div class="map-toolbar">
+        <select id="citySelect"><option value="">— 地级市 —</option></select>
+        <select id="countySelect"><option value="">— 区县 —</option></select>
+        <button id="resetBtn" onclick="resetMap()">🔄 复位</button>
+      </div>
+      <div id="mapChart"></div>
+      <div id="selectedInfo" class="sel-popup">
+        <div class="sel-popup-title" id="sel-name">— 选择区县查看详情 —</div>
+        <div class="sel-popup-row">
+          <span>🌡️ 温度 <b id="sel-temp">—</b></span>
+          <span>💧 湿度 <b id="sel-hum">—</b></span>
+          <span>🌤 天气 <b id="sel-desc">—</b></span>
+          <span>🌿 AQI <b id="sel-aqi">—</b></span>
+          <span>⚠️ 风险 <b id="sel-risk">—</b></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI半区 -->
+    <div class="box-half ai-half">
+      <div class="box-title">💬 AI 养护助手</div>
+      <div class="preset-wrap">
+        <button onclick="askAI('古建筑裂缝如何修补？')">裂缝修补</button>
+        <button onclick="askAI('潮湿发霉怎么处理？')">潮湿发霉</button>
+        <button onclick="askAI('冬季如何防冻保护？')">冬季防冻</button>
+        <button onclick="askAI('木结构如何防虫蛀？')">木构防虫</button>
+      </div>
+      <div class="chat-history" id="chatHistory">
+        <div class="chat-msg sys">👋 欢迎使用山西古建筑AI养护助手！</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="aiQuestion" class="chat-text-input" placeholder="输入养护问题..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button id="sendBtn" class="chat-send-btn" onclick="sendMsg()">发送</button>
+      </div>
+    </div>
+  </div><!-- /inner-box -->
+
+  <!-- 右侧实时监控 -->
+  <div class="side wing-right">
+    <div class="wing-header">📷 实时监控</div>
+    <div class="wing-body" id="camWrap">
+      <video id="camVideo" src="zy/beam_loop.mp4" autoplay loop muted playsinline></video>
+    </div>
+  </div>
+
+</div><!-- /middle-section -->
+
+<!-- ====== BOTTOM: 温度趋势 | 七天预报 | 病害风险 ====== -->
+<div class="bottom-section">
+
+  <div class="bottom-panel">
+    <div class="box-title">📈 温度 / 湿度趋势</div>
+    <div class="bp-body" id="trendChart"></div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="box-title">📅 7日天气预报 · <span id="forecastCityName">山西省</span></div>
+    <div class="bp-body forecast-scroll" id="forecastCards"></div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="box-title">⚠️ 病害风险分析</div>
+    <div class="bp-body" id="diseaseChart"></div>
+  </div>
+
+</div>
+
+<!-- 隐藏元素（JS兼容） -->
+<div style="display:none" aria-hidden="true">
+  <span id="m-region">山西省</span>
+  <span id="m-temp">--</span>
+  <span id="m-hum">--</span>
+  <span id="m-risk">--</span>
+  <span id="m-records">0</span>
+  <div id="leftPanel"></div>
+  <div id="rightPanel"></div>
+</div>
+
+<script src="modules/data/monitoring.js"></script>
+<script src="modules/data/shanxi_geo.js"></script>
+<script src="modules/ort.min.js"></script>
+<script src="modules/app.js"></script>
+
+</body>
+</html>

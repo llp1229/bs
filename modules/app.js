@@ -91,8 +91,26 @@ function aqiInfo(a) { return a<=50?'优':a<=100?'良':a<=150?'轻度':a<=200?'�
 
 // ===== 预报卡片渲染 =====
 // 核心：统一调用 renderForecast(cityName) 更新预报区
+
+// ===== Beaufort wind scale =====
+function windLevel(kmh) {
+  if (kmh < 1)  return '0级 无风';
+  if (kmh < 6)  return '1级 软风';
+  if (kmh < 12) return '2级 轻风';
+  if (kmh < 20) return '3级 微风';
+  if (kmh < 29) return '4级 和风';
+  if (kmh < 39) return '5级 劲风';
+  if (kmh < 50) return '6级 强风';
+  if (kmh < 62) return '7级 疾风';
+  if (kmh < 75) return '8级 大风';
+  if (kmh < 89) return '9级 烈风';
+  if (kmh < 103) return '10级 狂风';
+  if (kmh < 118) return '11级 暴风';
+  return '12级 飓风';
+}
+
 function renderForecast(cityName) {
-  const data = (cityName && WEATHER_7D_BASE[cityName]) ? WEATHER_7D_BASE[cityName] : DEFAULT_7D;
+  const data = (selectedCountyName && WEATHER_7D_BASE[selectedCountyName]) ? WEATHER_7D_BASE[selectedCountyName] : (cityName && WEATHER_7D_BASE[cityName]) ? WEATHER_7D_BASE[cityName] : DEFAULT_7D;
   currentForecastCity = cityName;
 
   // 更新标题
@@ -118,7 +136,7 @@ function renderForecast(cityName) {
       '<div class="forecast-day">' + dayLabel + '</div>' +
       '<div class="forecast-icon">' + f.i + '</div>' +
       '<div class="forecast-temp">' + f.h + '°/' + f.l + '°</div>' +
-      '<div class="forecast-wind">\ud83c\udf2c ' + (f.w || '--') + 'km/h</div>';
+      '<div class="forecast-wind">\ud83c\udf2c ' + windLevel(f.w || 0) + '</div>';
 
     card.onclick = function() {
       document.querySelectorAll('.forecast-card').forEach(c => c.classList.remove('active'));
@@ -167,6 +185,18 @@ function onCountyClick(name, cityName) {
   const selRisk = document.getElementById('sel-risk');
   selRisk.textContent = d.risk || '--';
   selRisk.style.color = riskColor(d.risk);
+  // Show buildings if available
+  var bEl = document.getElementById('sel-buildings');
+  if (bEl) {
+    var bData = (MONITORING_DATA[name] || {}).buildings;
+    if (bData && bData.length > 0) {
+      bEl.innerHTML = '<div style="margin-top:6px;font-size:11px;color:#00e0ff;">古建筑：' + bData.map(function(b) { return '<span style="background:rgba(0,180,220,0.15);padding:2px 6px;border-radius:8px;margin:2px;display:inline-block;">' + b + '</span>'; }).join('') + '</div>';
+      bEl.style.display = 'block';
+    } else {
+      bEl.innerHTML = '';
+      bEl.style.display = 'none';
+    }
+  }
   document.getElementById('selectedInfo').classList.add('show');
 
   // 显示区县信息后重绘地图，消除空白
@@ -176,74 +206,33 @@ function onCountyClick(name, cityName) {
   renderForecast(cityName);
 }
 
-
-
 // ===== county-level real weather (fetch on click) =====
 async function fetchCountyWeather(countyName) {
   var pt = COUNTY_POINTS.find(function(p) { return p.name === countyName; });
   if (!pt) return null;
   var lat = pt.value[1], lon = pt.value[0];
-
   try {
-    var url = 'https://api.open-meteo.com/v1/forecast'
-      + '?latitude=' + lat + '&longitude=' + lon
-      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_speed_10m' + '&daily=temperature_2m_max,temperature_2m_min,weather_code,wind_speed_10m_max' + '&timezone=Asia%2FShanghai&forecast_days=7';
     var ctrl = new AbortController();
-    var tid = setTimeout(function() { ctrl.abort(); }, 5000);
-    var r = await fetch(url, { signal: ctrl.signal });
+    var tid = setTimeout(function() { ctrl.abort(); }, 8000);
+    var r = await fetch('/api/amap/weather/county?lat=' + lat + '&lon=' + lon + (pt.cityAdcode ? '&cityAdcode=' + pt.cityAdcode : ''), { signal: ctrl.signal });
     clearTimeout(tid);
+    if (!r.ok) return null;
     var j = await r.json();
-    if (!j || !j.current) return null;
-    var result = {
-      temp: Math.round(j.current.temperature_2m),
-      hum: j.current.relative_humidity_2m,
-      wind: Math.round(j.current.wind_speed_10m || 0),
-      desc: weatherCodeDesc(j.current.weather_code),
-      risk: (function() {
-        var _t = Math.round(j.current.temperature_2m);
-        var _h = j.current.relative_humidity_2m;
-        var _w = Math.round(j.current.wind_speed_10m || 0);
-        var tScore = 0;
-        if (_t < -5) tScore = 35;
-        else if (_t < 0) tScore = 30;
-        else if (_t < 5) tScore = 22;
-        else if (_t > 35) tScore = 28;
-        else if (_t > 30) tScore = 18;
-        else tScore = Math.round(Math.abs(_t - 22) * 0.6);
-        var hScore = 0;
-        if (_h > 85) hScore = 35;
-        else if (_h > 70) hScore = 25;
-        else if (_h > 55) hScore = 15;
-        else if (_h < 20) hScore = 12;
-        var wScore = 0;
-        if (_w > 40) wScore = 28;
-        else if (_w > 25) wScore = 18;
-        else if (_w > 15) wScore = 10;
-        else if (_w > 8) wScore = 5;
-        var total = tScore + hScore + wScore;
-        return total >= 70 ? '\u9ad8' : total >= 40 ? '\u4e2d' : '\u4f4e';
-      })()
-    };
-    if (j.daily && j.daily.time && j.daily.time.length >= 7) {
-      var fc = [];
-      for (var di = 0; di < 7; di++) {
-        fc.push({
-          d: '', i: weatherCodeEmoji(j.daily.weather_code[di]),
-          h: Math.round(j.daily.temperature_2m_max[di]),
-          l: Math.round(j.daily.temperature_2m_min[di]),
-          w: Math.round(j.daily.wind_speed_10m_max ? (j.daily.wind_speed_10m_max[di] || 0) : 0)
-        });
-      }
-      result.forecast = fc;
-    }
-    return result;
+    if (!j || !j.temp) return null;
+    j.risk = j.risk || (function() {
+      var _t=j.temp, _h=j.hum, _w=j.wind||0;
+      var tS=0; if(_t<-5)tS=35;else if(_t<0)tS=30;else if(_t<5)tS=22;else if(_t>35)tS=28;else if(_t>30)tS=18;else tS=Math.round(Math.abs(_t-22)*0.6);
+      var hS=0; if(_h>85)hS=35;else if(_h>70)hS=25;else if(_h>55)hS=15;else if(_h<20)hS=12;
+      var wS=0; if(_w>40)wS=28;else if(_w>25)wS=18;else if(_w>15)wS=10;else if(_w>8)wS=5;
+      var total=tS+hS+wS; return total>=70?'\u9ad8':total>=40?'\u4e2d':'\u4f4e';
+    })();
+    return j;
   } catch(e) {
-    console.warn('[Weather] county fetch failed:', countyName, e.message || e);
+    console.warn('[Weather] county fetch failed:', countyName, e.message||e);
     return null;
   }
 }
 
-// called by onCountyClick - updates top metrics with real county weather
 async function updateCountyMetrics(countyName, cityName) {
   var live = await fetchCountyWeather(countyName);
   if (live) {
@@ -259,7 +248,7 @@ async function updateCountyMetrics(countyName, cityName) {
     sr.textContent = live.risk;
     sr.style.color = riskColor(live.risk);
     MONITORING_DATA[countyName] = { temp: live.temp, hum: live.hum, wind: live.wind, risk: live.risk, desc: live.desc, aqi: MONITORING_DATA[countyName] ? (MONITORING_DATA[countyName].aqi || 50) : 50 };
-    if (live.forecast) { WEATHER_7D_BASE[countyName] = live.forecast; }
+    if (live.forecast) { WEATHER_7D_BASE[countyName] = live.forecast; renderForecast(cityName); }
     if (typeof drawMap === 'function') { drawMap(); }
     drawCharts();
   } else {
@@ -409,7 +398,7 @@ function drawMap() {
     },
     geo: {
       map: 'shanxi',
-      roam: false,
+      roam: true,
       zoom: zoom,
       center: center,
       scaleLimit: { min: 0.8, max: 15 },
@@ -473,13 +462,18 @@ setInterval(() => {
 }, 1000);
 
 // ===== 图表 =====
-function drawCharts() {
+function drawCharts() { // null-safe for new layout
+  var tc = document.getElementById('trendChart');
+  var dc = document.getElementById('diseaseChart');
+  if (!tc && !dc) return; // elements removed in V2 layout
   // === 温度/湿度趋势图（带刻度和动态日期） ===
   const now = new Date();
   const dayNames = ['周日','周一','周二','周三','周四','周五','周六'];
   // 获取当前城市的7天预报数据
   var forecastData = null;
-  if (currentForecastCity && WEATHER_7D_BASE[currentForecastCity]) {
+  if (selectedCountyName && WEATHER_7D_BASE[selectedCountyName]) {
+    forecastData = WEATHER_7D_BASE[selectedCountyName];
+  } else if (currentForecastCity && WEATHER_7D_BASE[currentForecastCity]) {
     forecastData = WEATHER_7D_BASE[currentForecastCity];
   }
   // 从MONITORING_DATA获取湿度数据
@@ -560,7 +554,7 @@ function drawCharts() {
   svg += '<line x1="' + (svgX + 145) + '" y1="6" x2="' + (svgX + 165) + '" y2="6" stroke="#3498db" stroke-width="2"/>';
   svg += '<text x="' + (svgX + 168) + '" y="9" fill="#3498db" font-size="9">湿度(%)</text>';
 
-  document.getElementById('trendChart').innerHTML = svg;
+  document.getElementById('trendChart').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" style="width:100%;height:100%;display:block;">' + svg + '</svg>';
 
   // === 气候病害风险关联 ===
   (function() {
@@ -667,7 +661,7 @@ function drawCharts() {
       tagX += tw + 6;
     }
 
-    document.getElementById('diseaseChart').innerHTML = svg2;
+    document.getElementById('diseaseChart').innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 135" style="width:100%;height:100%;display:block;">' + svg2 + '</svg>';
   })();
 }
 
@@ -703,103 +697,27 @@ async function sendMsg() {
     const loc = selectedCountyName || (currentCityData ? currentCityData.name : null);
     if (loc && MONITORING_DATA[loc]) {
       const w = MONITORING_DATA[loc];
-      weatherCtx = '[当前' + loc + '天气：温度' + w.temp + '°C，湿度' + w.hum + '%，风力' + w.wind + '级] ';
+      weatherCtx = '[当前' + loc + '天气：温度' + w.temp + '°C，湿度' + w.hum + '%，' + windLevel(w.wind) + '] ';
     }
-    const r = await fetch('http://localhost:5188/api/ask', {
+    const r = await fetch('/api/qwen/chat', {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({question: weatherCtx + q})
+      body: JSON.stringify({messages: [{role:'system',content:'你是山西古建筑养护专家，精通木结构、砖石结构、彩绘等保护技术，回答简洁专业'},{role:'user',content: weatherCtx + q}]})
     });
     const d = await r.json();
+    const answer = d.choices?.[0]?.message?.content || '无响应';
+    const tokens = d.usage?.total_tokens || 0;
     const thinkEl = document.getElementById('thinkingMsg');
     if (thinkEl) thinkEl.remove();
-    addChat((d.answer||'无响应').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>'));
+    addChat(answer.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br/>') + (tokens ? '<br/><span style="font-size:10px;color:#666;">消耗 '+tokens+' Token</span>' : ''));
   } catch(e) {
     const thinkEl = document.getElementById('thinkingMsg');
     if (thinkEl) thinkEl.remove();
-    addChat('❌ 连接失败，请确保AI服务已启动：<br/><span style="color:#aaa">python ai_server.py</span>');
+    addChat('❌ 连接失败，请确保后端已启动：<br/><span style="color:#aaa">cd backend && node server.js</span>');
   }
   btn.disabled = false; btn.textContent = '发送';
 }
 
 // ===== 摄像头 =====
-function startWebcam() {
-  var video = document.getElementById('camVideo');
-  var btn = document.getElementById('camBtnFallback');
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    if (video) { video.style.display = 'block'; }
-    if (btn) { btn.style.display = 'none'; }
-    return;
-  }
-  // 显示 摄像头启动中
-  if (btn) { btn.innerHTML = '<span class="cam-icon">' + '⏳' + '</span><span class="cam-label">' + '启动中...' + '</span>'; }
-  navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'user' } }).then(function(stream) {
-    if (video) {
-      video.srcObject = stream;
-      video.style.display = 'block';
-      video.setAttribute('playsinline', '');
-      // 关键：MediaStream 替换 src 后需要手动 play
-      video.play().then(function() {
-        console.log('[Webcam] playing');
-        startYoloInference(video);
-      }).catch(function(e) {
-        console.warn('[Webcam] play failed:', e);
-      });
-    }
-    if (btn) {
-      btn.innerHTML = '<span class="cam-icon">' + '📹' + '</span><span class="cam-label">' + '录制中' + '</span>';
-      btn.style.background = 'rgba(0,255,0,0.3)';
-      btn.onclick = function() {
-        // 点击停止摄像头，恢复演示视频
-        if (video && video.srcObject) {
-          var tracks = video.srcObject.getTracks();
-          tracks.forEach(function(t) { t.stop(); });
-          video.srcObject = null;
-          video.load();
-          stopYoloInference();
-        }
-        btn.innerHTML = '<span class="cam-icon">' + '📷' + '</span><span class="cam-label">' + '摄像头' + '</span>';
-        btn.style.background = '';
-        btn.onclick = startWebcam;
-      };
-    }
-    // 黑屏检测：3秒后用canvas检查是否全黑
-    setTimeout(function() {
-      if (!video || !video.srcObject) return;
-      try {
-        var canvas = document.createElement('canvas');
-        canvas.width = 1; canvas.height = 1;
-        var ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, 1, 1);
-        var pixel = ctx.getImageData(0, 0, 1, 1).data;
-        // 如果RGB都 10，判定为黑屏
-        if (pixel[0] < 10 && pixel[1] < 10 && pixel[2] < 10) {
-          console.warn('[Webcam] 黑屏检测->恢复演示视频');
-          stopYoloInference();
-          var tracks = video.srcObject.getTracks();
-          tracks.forEach(function(t) { t.stop(); });
-          video.srcObject = null;
-          video.load();
-          stopYoloInference();
-          if (btn) {
-            btn.innerHTML = '<span class="cam-icon">' + '⚠️' + '</span><span class="cam-label">' + '摄像头黑屏' + '</span>';
-            btn.style.background = 'rgba(255,0,0,0.3)';
-            btn.onclick = startWebcam;
-          }
-        }
-      } catch(e) { /* canvas失败 */ }
-    }, 3000);
-  }).catch(function() {
-    // 摄像头被拒或无权限
-    if (video) { video.style.display = 'block'; }
-    if (btn) {
-      btn.innerHTML = '<span class="cam-icon">' + '🛑' + '</span><span class="cam-label">' + '无权限' + '</span>';
-      btn.style.background = 'rgba(255,0,0,0.3)';
-    }
-  });
-}
-
-
-
 
 // ===== YOLO 实时病害检测 =====
 var yoloSession = null;
@@ -810,81 +728,6 @@ var yoloInterval = null;
 
 // COCO 80 class names (YOLO default output order) + our 2 custom classes
 var YOLO_CLASS_NAMES = ['crack', 'spall'];
-
-async function startYoloInference(video) {
-  var statusEl = document.getElementById('yoloStatus');
-  if (statusEl) {
-    statusEl.style.display = 'block';
-    statusEl.textContent = '⏳ YOLO 模型加载中...';
-    statusEl.className = 'yolo-status loading';
-  }
-
-  if (!window.ort) {
-    if (statusEl) {
-      statusEl.textContent = '❌ ONNX Runtime 未加载';
-      statusEl.className = 'yolo-status error';
-    }
-    console.error('[YOLO] ort not available');
-    return;
-  }
-
-  try {
-    
-    // Configure WASM path for local files
-    if (typeof ort !== 'undefined' && ort.env && ort.env.wasm) {
-      console.log('[YOLO] WASM path set to: modules/');
-    }
-    // Load model (cached by browser after first load)
-    console.log('[YOLO] Creating session from: modules/model/best.onnx'); console.log('[YOLO] WASM config:', ort.env.wasm); yoloSession = await ort.InferenceSession.create('modules/model/best.onnx', {
-      graphOptimizationLevel: 'all'
-    });
-    console.log('[YOLO] Model loaded, input:', yoloSession.inputNames, 'output:', yoloSession.outputNames);
-
-    if (statusEl) {
-      statusEl.textContent = '🔍 YOLO 检测中';
-      statusEl.className = 'yolo-status';
-    }
-
-    yoloRunning = true;
-    // Run inference every 800ms
-    yoloInterval = setInterval(function() {
-      if (!yoloRunning || !yoloSession) return;
-      runYoloDetection(video);
-    }, 800);
-
-    // First detection immediately
-    setTimeout(function() { runYoloDetection(video); }, 500);
-
-  } catch(e) {
-    console.error('[YOLO] Load failed:', e);
-    var errMsg = e && e.message ? e.message : String(e);
-    yoloRetryCount++;
-    if (yoloRetryCount <= yoloMaxRetries) {
-      if (statusEl) { statusEl.textContent = '⏳ 重试中... (' + yoloRetryCount + '/' + yoloMaxRetries + ') [' + errMsg.substring(0,60) + ']'; }
-      await new Promise(function(r) { setTimeout(r, 2000); });
-      return startYoloInference(video);
-    }
-    if (statusEl) {
-      statusEl.textContent = '❌ 失败: ' + errMsg.substring(0,120);
-      statusEl.className = 'yolo-status error';
-    }
-  }
-}
-
-function stopYoloInference() {
-  yoloRunning = false;
-  if (yoloInterval) {
-    clearInterval(yoloInterval);
-    yoloInterval = null;
-  }
-  var canvas = document.getElementById('yoloCanvas');
-  if (canvas) {
-    var ctx = canvas.getContext('2d');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-  var statusEl = document.getElementById('yoloStatus');
-  if (statusEl) { statusEl.style.display = 'none'; }
-}
 
 // NMS: remove overlapping boxes
 function nmsBoxes(boxes, iouThreshold) {
@@ -1075,152 +918,85 @@ function riskFromHumidity(hum) {
 }
 
 async function fetchRealWeather() {
-  var cities = CITY_LIST; // from monitoring.js
-  var latLons = cities.map(function(c) {
-    return { name: c.name, lat: c.center[1], lon: c.center[0] };
-  });
+  try {
+    var r = await fetch('/api/amap/weather/shanxi');
+    if (!r.ok) { console.warn('[Weather] fetchRealWeather HTTP ' + r.status); return; }
+    var j = await r.json();
+    if (!j || !j.cities) return;
 
-  // Fetch current + 7-day forecast for all cities in parallel
-  var promises = latLons.map(function(ll) {
-    var url = 'https://api.open-meteo.com/v1/forecast'
-      + '?latitude=' + ll.lat + '&longitude=' + ll.lon
-      + '&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m'
-      + '&daily=temperature_2m_max,temperature_2m_min,weather_code,wind_speed_10m_max'
-      + '&timezone=Asia%2FShanghai&forecast_days=7';
-    return fetch(url).then(function(r) { return r.json(); })
-      .then(function(j) { return { name: ll.name, data: j }; })
-      .catch(function() { return null; });
-  });
-
-  var results = await Promise.all(promises);
-
-  // Update MONITORING_DATA with real temp + hum for all counties
-  results.forEach(function(r) {
-    if (!r || !r.data || !r.data.current) return;
-    var cityName = r.name;
-    var cur = r.data.current;
-    var cityObj = cities.find(function(c) { return c.name === cityName; });
-    if (!cityObj) return;
-
-    var baseTemp = Math.round(cur.temperature_2m);
-    var baseHum = cur.relative_humidity_2m;
-    var baseWind = cur.wind_speed_10m || 0;
-    var wCode = cur.weather_code;
-    var baseRisk = riskFromHumidity(baseHum);
-
-    cityObj.counties.forEach(function(countyName, idx) {
-      var variation = (idx % 3) - 1; // small variation per county
-      var countyTemp = baseTemp + variation;
-      var countyHum = baseHum + variation * 2;
-      if (countyHum < 10) countyHum = 10;
-      if (countyHum > 95) countyHum = 95;
-
-      var _t = countyTemp, _h = countyHum, _w = Math.round(baseWind + variation);
-      var tS = 0;
-      if (_t < -5) tS = 35;
-      else if (_t < 0) tS = 30;
-      else if (_t < 5) tS = 22;
-      else if (_t > 35) tS = 28;
-      else if (_t > 30) tS = 18;
-      else tS = Math.round(Math.abs(_t - 22) * 0.6);
-      var hS = 0;
-      if (_h > 85) hS = 35;
-      else if (_h > 70) hS = 25;
-      else if (_h > 55) hS = 15;
-      else if (_h < 20) hS = 12;
-      var wS = 0;
-      if (_w > 40) wS = 28;
-      else if (_w > 25) wS = 18;
-      else if (_w > 15) wS = 10;
-      else if (_w > 8) wS = 5;
-      var _total = tS + hS + wS;
-      var _riskLabel = _total >= 70 ? '\u9ad8' : _total >= 40 ? '\u4e2d' : '\u4f4e';
-
-      MONITORING_DATA[countyName] = {
-        temp: countyTemp,
-        hum: countyHum,
-        risk: _riskLabel,
-        desc: weatherCodeDesc(wCode),
-        wind: Math.round(baseWind + variation),
-        aqi: MONITORING_DATA[countyName] ? MONITORING_DATA[countyName].aqi || 50 : 50
-      };
+    Object.keys(j.cities).forEach(function(cityName) {
+      var cd = j.cities[cityName];
+      if (!cd || !cd.counties) return;
+      cd.counties.forEach(function(co) {
+        MONITORING_DATA[co.name] = {
+          temp: co.temp, hum: co.hum, wind: co.wind,
+          risk: co.risk, desc: co.desc, aqi: co.aqi || 50
+        };
+      });
+      if (cd.forecast && cd.forecast.length > 0) {
+        WEATHER_7D_BASE[cityName] = cd.forecast;
+      }
     });
 
-    // Update 7-day forecast
-    var daily = r.data.daily;
-    if (daily && daily.time && daily.time.length >= 7) {
-      var forecast = [];
-      for (var i = 0; i < 7; i++) {
-        forecast.push({
-          d: '',
-          i: weatherCodeEmoji(daily.weather_code[i]),
-          h: Math.round(daily.temperature_2m_max[i]),
-          l: Math.round(daily.temperature_2m_min[i]),
-          w: Math.round(daily.wind_speed_10m_max ? (daily.wind_speed_10m_max[i] || 0) : 0)
-        });
+    // Build DEFAULT_7D from all city forecasts
+    var allFc = [];
+    Object.keys(WEATHER_7D_BASE).forEach(function(k) {
+      var f = WEATHER_7D_BASE[k]; if (f && f.length > 0) allFc.push(f);
+    });
+    if (allFc.length > 0) {
+      var newDefault = [];
+      for (var di = 0; di < 4; di++) {
+        var sH = 0, sL = 0, cnt = 0;
+        allFc.forEach(function(f) { if (f[di]) { sH += f[di].h; sL += f[di].l; cnt++; } });
+        newDefault.push({ d: '', i: '☀️', h: cnt > 0 ? Math.round(sH / cnt) : 20, l: cnt > 0 ? Math.round(sL / cnt) : 10, w: 8 });
       }
-      WEATHER_7D_BASE[cityName] = forecast;
+      DEFAULT_7D = newDefault;
     }
-  });
 
-  // Update DEFAULT_7D as fallback (use average of all city forecasts)
-  var allForecasts = results.filter(function(r) { return r && r.data && r.data.daily; });
-  if (allForecasts.length > 0) {
-    var newDefault = [];
-    for (var i = 0; i < 7; i++) {
-      var sumH = 0, sumL = 0, count = 0;
-      allForecasts.forEach(function(r) {
-        var d = r.data.daily;
-        if (d && d.temperature_2m_max && d.temperature_2m_max[i] !== undefined) {
-          sumH += d.temperature_2m_max[i];
-          sumL += d.temperature_2m_min[i];
-          count++;
-        }
-      });
-      newDefault.push({
-        d: '',
-        i: '\u2600\ufe0f',
-        h: count > 0 ? Math.round(sumH / count) : 20,
-        l: count > 0 ? Math.round(sumL / count) : 10,
-        w: 8
-      });
-    }
-    DEFAULT_7D = newDefault;
-  }
+    // Update top metrics — respect selected county
+    var mTemp = document.getElementById('m-temp');
+    var mHum = document.getElementById('m-hum');
+    var mRisk = document.getElementById('m-risk');
 
-  // Update top metrics with province-average
-  var temps = [], hums = [];
-  for (var k in MONITORING_DATA) {
-    if (MONITORING_DATA.hasOwnProperty(k)) {
-      var d = MONITORING_DATA[k];
-      if (d.temp !== undefined) temps.push(d.temp);
-      if (d.hum !== undefined) hums.push(d.hum);
-    }
-  }
-  if (temps.length > 0) {
-    var avgTemp = Math.round(temps.reduce(function(a,b){return a+b;}) / temps.length);
-    var avgHum = Math.round(hums.reduce(function(a,b){return a+b;}) / hums.length);
-    document.getElementById('m-temp').textContent = avgTemp + '\u00b0C';
-    document.getElementById('m-hum').textContent = avgHum + '%';
-    // Update top risk: count high/medium/low counties
-    var rCounts = { '\u9ad8': 0, '\u4e2d': 0, '\u4f4e': 0 };
-    for (var rk in MONITORING_DATA) {
-      if (MONITORING_DATA.hasOwnProperty(rk)) {
-        var rd = MONITORING_DATA[rk].risk;
-        if (rCounts[rd] !== undefined) rCounts[rd]++;
-      }
-    }
-    var mRiskEl = document.getElementById('m-risk');
-    if (rCounts['\u9ad8'] > rCounts['\u4e2d'] && rCounts['\u9ad8'] > rCounts['\u4f4e']) {
-      mRiskEl.textContent = '\u9ad8'; mRiskEl.style.color = '#e74c3c';
-    } else if (rCounts['\u4e2d'] > rCounts['\u4f4e']) {
-      mRiskEl.textContent = '\u4e2d'; mRiskEl.style.color = '#f39c12';
+    if (selectedCountyName && MONITORING_DATA[selectedCountyName]) {
+      // Show selected county's weather (not average)
+      var sc = MONITORING_DATA[selectedCountyName];
+      mTemp.textContent = sc.temp + '°C';
+      mHum.textContent = sc.hum + '%';
+      mRisk.textContent = sc.risk || '--';
+      if (sc.risk === '高') mRisk.style.color = '#e74c3c';
+      else if (sc.risk === '中') mRisk.style.color = '#f39c12';
+      else if (sc.risk === '低') mRisk.style.color = '#2ecc71';
+      else mRisk.style.color = '#aaa';
     } else {
-      mRiskEl.textContent = '\u4f4e'; mRiskEl.style.color = '#2ecc71';
-    }
-  }
-
-  console.log('\u2705 \u5b9e\u65f6\u5929\u6c14\u6570\u636e\u5df2\u52a0\u8f7d');
+      // No county selected — show average across all
+      var temps = [], hums = [];
+      for (var k in MONITORING_DATA) {
+        if (MONITORING_DATA.hasOwnProperty(k)) {
+          var md = MONITORING_DATA[k];
+          if (md.temp !== undefined) temps.push(md.temp);
+          if (md.hum !== undefined) hums.push(md.hum);
+        }
+      }
+      if (temps.length > 0) {
+        mTemp.textContent = Math.round(temps.reduce(function(a, b) { return a + b; }) / temps.length) + '°C';
+        mHum.textContent = Math.round(hums.reduce(function(a, b) { return a + b; }) / temps.length) + '%';
+        var rH = 0, rM = 0, rL = 0;
+        for (var rk in MONITORING_DATA) {
+          if (MONITORING_DATA.hasOwnProperty(rk)) {
+            var rd = MONITORING_DATA[rk].risk;
+            if (rd === '高') rH++;
+            else if (rd === '中') rM++;
+            else rL++;
+          }
+        }
+        var mre = document.getElementById('m-risk');
+        if (rH > rM && rH > rL) { mre.textContent = '高'; mre.style.color = '#e74c3c'; }
+        else if (rM > rL) { mre.textContent = '中'; mre.style.color = '#f39c12'; }
+        else { mre.textContent = '低'; mre.style.color = '#2ecc71'; }
+      }
+    }console.log('✅ AMap实时天气已加载');
+  } catch (e) { console.warn('[Weather] fetchRealWeather error:', e.message || e); }
 }
 
 // ===== 初始化 =====
@@ -1234,3 +1010,291 @@ document.addEventListener('DOMContentLoaded', async function() {
   // 每30分钟静默刷新天气，保持 MONITORING_DATA 实时
   setInterval(function() { fetchRealWeather(); }, 1800000);
 });
+
+
+// ===== V3 layout helpers =====
+
+// ===== YOLO Detection =====
+var yoloModel = null;
+var yoloRunning = false;
+
+async function startYoloInference() {
+  console.log('[YOLO] startYoloInference called, yoloRunning=' + yoloRunning);
+  if (yoloRunning) return;
+  var canvas = document.getElementById('yoloCanvas');
+  var video = document.getElementById('camVideo');
+  var status = document.getElementById('yoloStatus');
+  if (!canvas || !video) {
+    console.warn('[YOLO] Missing canvas or video element');
+    return;
+  }
+
+  // ========== Step 1: Ensure ONNX Runtime is loaded ==========
+  if (typeof ort === 'undefined') {
+    console.error('[YOLO] ONNX Runtime (ort) not loaded!');
+    status.style.display = 'block';
+    status.style.background = 'rgba(200,0,0,0.85)';
+    status.textContent = '\u26A0\uFE0F ONNX Runtime \u672A\u52A0\u8F7D\uFF0C\u8BF7\u5237\u65B0\u9875\u9762';
+    setTimeout(function() { status.style.display = 'none'; }, 5000);
+    return;
+  }
+  console.log('[YOLO] ort version:', ort.version || 'unknown');
+
+  // ========== Step 2: Configure WASM path ==========
+  ort.env.wasm = ort.env.wasm || {};
+  ort.env.wasm.wasmPaths = {
+    'ort-wasm-simd-threaded.wasm': 'modules/ort-wasm-simd-threaded.wasm',
+    'ort-wasm-simd.wasm': 'modules/ort-wasm-simd.wasm',
+    'ort-wasm.wasm': 'modules/ort-wasm.wasm'
+  };
+  ort.env.wasm.numThreads = 1;
+  console.log('[YOLO] WASM paths configured');
+
+  // ========== Step 3: Load model ==========
+  try {
+    status.style.display = 'block';
+    status.className = 'yolo-status loading';
+    status.textContent = '\u23F3 \u52A0\u8F7DYOLO\u6A21\u578B\u4E2D... (0%)';
+
+    yoloModel = await ort.InferenceSession.create('modules/model/best.onnx', {
+      executionProviders: ['wasm'],
+      graphOptimizationLevel: 'all'
+    });
+
+    console.log('[YOLO] Model loaded successfully');
+    console.log('[YOLO] Inputs:', yoloModel.inputNames);
+    console.log('[YOLO] Outputs:', yoloModel.outputNames);
+
+    status.className = 'yolo-status';
+    status.textContent = '\u2705 YOLO ready';
+    status.style.background = 'rgba(0,100,0,0.75)';
+    setTimeout(function() {
+      status.textContent = '\uD83D\uDD0D YOLO \u68C0\u6D4B\u4E2D';
+      status.style.background = '';
+    }, 1500);
+  } catch(e) {
+    console.error('[YOLO] Model load FAILED:', e.message);
+    console.error('[YOLO] Error type:', e.constructor.name);
+    console.error('[YOLO] Stack:', e.stack);
+
+    // Retry once after 3 seconds
+    var retries = window._yoloRetries || 0;
+    if (retries < 2) {
+      window._yoloRetries = retries + 1;
+      status.textContent = '\u23F3 \u91CD\u8BD5\u4E2D... (' + window._yoloRetries + '/2)';
+      status.className = 'yolo-status loading';
+      status.style.display = 'block';
+      console.warn('[YOLO] Retrying in 3s (attempt ' + window._yoloRetries + '/2)');
+      setTimeout(function() { startYoloInference(); }, 3000);
+      return;
+    }
+
+    window._yoloRetries = 0;
+    status.textContent = '\u26A0\uFE0F \u6A21\u578B\u52A0\u8F7D\u5931\u8D25: ' + (e.message || 'unknown').substring(0, 40);
+    status.style.background = 'rgba(200,60,0,0.85)';
+    status.className = 'yolo-status error';
+    setTimeout(function() { status.style.display = 'none'; }, 6000);
+    return;
+  }
+
+  // ========== Step 4: Start detection loop ==========
+  window._yoloRetries = 0;
+  yoloRunning = true;
+  console.log('[YOLO] Detection loop started');
+  var ctx = canvas.getContext('2d');
+
+  var frameCount = 0;
+  async function detect() {
+    if (!yoloRunning || !yoloModel) {
+      if (!yoloModel) console.warn('[YOLO] detect called with no model');
+      return;
+    }
+    if (video.readyState < 2) {
+      requestAnimationFrame(detect);
+      return;
+    }
+
+    canvas.width = video.videoWidth || 640;
+    canvas.height = video.videoHeight || 480;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    try {
+      // Create input tensor from video frame
+      var inputSize = 640;
+      var offCanvas = document.createElement('canvas');
+      offCanvas.width = inputSize;
+      offCanvas.height = inputSize;
+      var offCtx = offCanvas.getContext('2d');
+      offCtx.drawImage(video, 0, 0, inputSize, inputSize);
+      var imageData = offCtx.getImageData(0, 0, inputSize, inputSize);
+
+      var data = new Float32Array(3 * inputSize * inputSize);
+      for (var i = 0; i < inputSize * inputSize; i++) {
+        data[i] = imageData.data[i * 4] / 255.0;
+        data[inputSize * inputSize + i] = imageData.data[i * 4 + 1] / 255.0;
+        data[2 * inputSize * inputSize + i] = imageData.data[i * 4 + 2] / 255.0;
+      }
+      var tensor = new ort.Tensor('float32', data, [1, 3, inputSize, inputSize]);
+      var results = await yoloModel.run({ images: tensor });
+      var output = results.output0;
+
+      // Draw detections
+      var scaleX = canvas.width / inputSize;
+      var scaleY = canvas.height / inputSize;
+      var detections = [];
+      for (var r = 0; r < output.dims[1]; r++) {
+        var row = output.data.slice(r * output.dims[2], (r + 1) * output.dims[2]);
+        var maxConf = 0, maxIdx = 0;
+        for (var ci = 4; ci < 7; ci++) {
+          if (row[ci] > maxConf) { maxConf = row[ci]; maxIdx = ci - 4; }
+        }
+        if (maxConf > 0.85) {
+          var cx = row[0] * scaleX, cy = row[1] * scaleY;
+          var w = row[2] * scaleX, h = row[3] * scaleY;
+          detections.push({ x: cx - w/2, y: cy - h/2, w: w, h: h, conf: maxConf, cls: maxIdx });
+        }
+      }
+
+      var colors = ['#e74c3c', '#f39c12'];
+      var names = ['crack', 'spall'];
+      for (var di = 0; di < detections.length; di++) {
+        var d = detections[di];
+        var color = colors[d.cls] || '#2ecc71';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(d.x, d.y, d.w, d.h);
+        ctx.fillStyle = color;
+        ctx.font = '12px sans-serif';
+        var label = (names[d.cls] || 'obj') + ' ' + Math.round(d.conf * 100) + '%';
+        var tm = ctx.measureText(label);
+        ctx.fillRect(d.x, d.y - 16, tm.width + 8, 16);
+        ctx.fillStyle = '#fff';
+        ctx.fillText(label, d.x + 4, d.y - 3);
+      }
+
+      // Log every 30 frames
+      frameCount++;
+      if (frameCount % 30 === 0) {
+        console.log('[YOLO] Frame ' + frameCount + ': ' + detections.length + ' detections');
+      }
+
+      // Update status
+      if (detections.length > 0) {
+        status.textContent = '\u26A0\uFE0F \u68C0\u6D4B\u5230 ' + detections.length + ' \u5904\u75C5\u5BB3';
+        status.style.display = 'block';
+      }
+    } catch(e) {
+      if (frameCount <= 3) {
+        console.error('[YOLO] Detection error on frame ' + frameCount + ':', e.message);
+      }
+    }
+
+    if (yoloRunning) requestAnimationFrame(detect);
+  }
+
+  requestAnimationFrame(detect);
+}
+
+function startWebcam() {
+  var video = document.getElementById('camVideo');
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } })
+      .then(function(stream) {
+        video.srcObject = stream;
+        video.src = '';
+        video.play();
+        document.getElementById('camBtn').innerHTML = 'LIVE';
+        document.getElementById('camBtn').title = 'Switch to demo';
+        startYoloInference();
+      })
+      .catch(function(e) {
+        console.warn('Camera error:', e.message);
+        if (!video.src || video.src === '') {
+          video.src = 'zy/beam_loop.mp4';
+          video.loop = true;
+          video.play();
+        }
+        startYoloInference();
+      });
+  } else {
+    startYoloInference();
+  }
+}
+
+function switchBox(mode) {
+  var m = document.getElementById('boxMap');
+  var a = document.getElementById('boxAI');
+  var bm = document.getElementById('btnMap');
+  var ba = document.getElementById('btnAI');
+  if (mode === 'map') {
+    m.style.display = 'flex';
+    a.style.display = 'none';
+    bm.classList.add('active');
+    ba.classList.remove('active');
+    setTimeout(function() { if (mapChart) mapChart.resize(); }, 150);
+  } else {
+    m.style.display = 'none';
+    a.style.display = 'flex';
+    bm.classList.remove('active');
+    ba.classList.add('active');
+  }
+}
+
+var _camActive = false, _camStream = null;
+
+function stopYoloInference() {
+  yoloRunning = false;
+  if (yoloInterval) {
+    clearInterval(yoloInterval);
+    yoloInterval = null;
+  }
+  var canvas = document.getElementById('yoloCanvas');
+  if (canvas) {
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+  var statusEl = document.getElementById('yoloStatus');
+  if (statusEl) { statusEl.style.display = 'none'; }
+}
+
+function toggleCamera() {
+  var btn = document.getElementById('camBtn');
+  var vid = document.getElementById('camVideo');
+  if (_camActive) {
+    if (_camStream) {
+      _camStream.getTracks().forEach(function(t) { t.stop(); });
+      _camStream = null;
+    }
+    vid.srcObject = null;
+    vid.src = 'zy/beam_loop.mp4';
+    vid.loop = true;
+    vid.play();
+    stopYoloInference();
+    btn.innerHTML = 'CAM';
+    btn.title = '切换摄像头';
+    _camActive = false;
+  } else {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } })
+        .then(function(stream) {
+          _camStream = stream;
+          vid.srcObject = stream;
+          vid.src = '';
+          vid.play();
+          btn.innerHTML = 'LIVE';
+          btn.title = '切回演示视频';
+          _camActive = true;
+          setTimeout(function() { startYoloInference(); }, 1500);
+        })
+        .catch(function(e) {
+          console.warn('Camera error:', e.message);
+          btn.innerHTML = 'CAM';
+          alert('摄像头不可用');
+        });
+    
+    } else {
+      alert('浏览器不支持摄像头');
+    }
+
+  }
+}

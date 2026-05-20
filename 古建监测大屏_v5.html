@@ -5,119 +5,152 @@
 <title>山西古建筑健康监测系统 v5</title>
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 <link rel="stylesheet" href="modules/style.css">
-
 </head>
 <body>
 
-<div class="header">
-  <h1 style="font-size:22px;color:#5ab4e0;margin:0;letter-spacing:3px;text-shadow:0 0 8px rgba(0,120,200,0.4)">🏛️ 山西古建筑健康监测系统</h1>
-  <div><span class="live">● LIVE</span> <span class="clock" id="clock">--:--:--</span></div>
-</div>
-
-<div class="metrics">
-  <div class="card"><div class="card-icon">🏘️</div><div class="card-value" id="m-region">山西省</div><div class="card-label">当前区域</div></div>
-  <div class="card"><div class="card-icon">📍</div><div class="card-value">116</div><div class="card-label">区县监测点</div></div>
-  <div class="card"><div class="card-icon">📊</div><div class="card-value" id="m-records">2000</div><div class="card-label">数据记录</div></div>
-  <div class="card"><div class="card-icon">🌡️</div><div class="card-value" id="m-temp">17°C</div><div class="card-label">当前温度</div></div>
-  <div class="card"><div class="card-icon">💧</div><div class="card-value" id="m-hum">48%</div><div class="card-label">当前湿度</div></div>
-  <div class="card"><div class="card-icon">⚠️</div><div class="card-value" id="m-risk" style="color:#f39c12">中</div><div class="card-label">病害风险</div></div>
-</div>
-
-<div class="main">
-  <!-- 第一行：地图 | 广告 -->
-  <div class="layout-row">
-    <div class="panel" id="leftPanel">
-      <div class="panel-header">🗺️ 山西省 · 116个区县</div>
-      <div class="panel-body">
-        <div class="map-select-wrap">
-          <select class="city-select" id="citySelect">
-            <option value="">— 选择地级市 —</option>
-          </select>
-          <select class="city-select" id="countySelect">
-            <option value="">— 选择区县 —</option>
-          </select>
-          <button class="reset-btn" id="resetBtn" onclick="resetMap()">🔄 复位全省</button>
-        </div>
-        <div id="mapChart"></div>
-        <div class="selected-info" id="selectedInfo">
-          <div class="sel-title" id="sel-name">— 尚未选择区县 —</div>
-          <div class="sel-row"><span class="sel-label">🌡️</span><span class="sel-val" id="sel-temp">—</span></div>
-          <div class="sel-row"><span class="sel-label">💧</span><span class="sel-val" id="sel-hum">—</span></div>
-          <div class="sel-row"><span class="sel-label">🌤</span><span class="sel-val" id="sel-desc">—</span></div>
-          <div class="sel-row"><span class="sel-label">🌿</span><span class="sel-val" id="sel-aqi">—</span></div>
-          <div class="sel-row"><span class="sel-label">⚠️</span><span class="sel-val" id="sel-risk">—</span></div>
-        </div>
-        <div class="map-tip">💡 先选城市，再点地图散点查看该区县天气</div>
-      </div>
-    </div>
-    <div class="panel ad-panel">
-      <div class="panel-header">🎬 古建筑风采</div>
-      <div class="panel-body" style="padding:0;flex:1;display:flex;align-items:center;justify-content:center;background:#000;border-radius:0 0 8px 8px;">
-        <video id="adVideo" autoplay loop muted playsinline style="height:100%;width:100%;object-fit:contain;">
-          <source src="zy/古建筑.mp4" type="video/mp4">
-          您的浏览器不支持视频播放
-        </video>
-      </div>
-    </div>
-  </div>
-
-  <!-- 第二行：天气预报（全宽） -->
-  <div class="forecast-full" id="forecastRow">
-    <div class="forecast-container">
-      <div class="forecast-title">📅 7天天气预报 &nbsp;<span id="forecastCityName" style="color:#00f0ff;font-size:14px;text-shadow:0 0 8px rgba(0,240,255,0.4)">山西省</span></div>
-      <div class="forecast-cards" id="forecastCards"></div>
-    </div>
-  </div>
-
-  <!-- 第三行：温度湿度趋势图 | 病害分布 -->
-  <div class="layout-row">
-    <div class="chart-wrap"><div class="chart-title">📈 温度/湿度趋势</div><svg viewBox="0 0 400 130" id="trendChart"></svg></div>
-    <div class="chart-wrap"><div class="chart-title">🏛️ 病害风险指数</div><svg viewBox="0 0 400 130" id="diseaseChart"></svg></div>
-  </div>
-
-  <!-- 第四行：AI养护 | 实时监控 -->
-  <div class="layout-row">
-    <div class="panel" id="rightPanel">
-      <div class="panel-header">💬 AI 养护咨询</div>
-      <div class="panel-body ai-panel">
-        <div class="preset-btns">
-          <button class="preset-btn" onclick="askAI('古建筑裂缝如何修补？')">裂缝修补</button>
-          <button class="preset-btn" onclick="askAI('潮湿发霉怎么处理？')">潮湿发霉</button>
-          <button class="preset-btn" onclick="askAI('冬季如何防冻保护？')">冬季防冻</button>
-          <button class="preset-btn" onclick="askAI('木结构如何防虫蛀？')">木构防虫</button>
-          <button class="preset-btn" onclick="askAI('砖墙剥落如何修缮？')">砖墙剥落</button>
-        </div>
-        <div class="chat-history" id="chatHistory">
-          <div class="chat-msg system">👋 欢迎使用山西古建筑AI养护助手！<br>可点击上方快捷问题，或直接输入</div>
-        </div>
-        <div class="chat-input-wrap">
-          <input type="text" class="chat-input" id="aiQuestion" placeholder="输入养护问题..." onkeydown="if(event.key==='Enter')sendMsg()"/>
-          <button class="send-btn" id="sendBtn" onclick="sendMsg()">发送</button>
-        </div>
-      </div>
-    </div>
-    <div class="panel">
-      <div class="panel-header">📷 实时监控</div>
-      <div class="panel-body monitor-panel">
-        <div class="cam-wrap" id="camWrap">
-          <video id="camVideo" src="zy/beam_loop.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>
-          <canvas id="yoloCanvas"></canvas>
-          <div class="yolo-status" id="yoloStatus" style="display:none;">🔍 YOLO 就绪</div>
-          <div class="cam-btn" id="camBtnFallback" onclick="startWebcam()"><span class="cam-icon">📷</span><span class="cam-label">摄像头</span></div>
-        </div>
-        <input type="text" class="cam-url" id="camUrl" placeholder="或输入IP摄像头地址，如 http://192.168.1.100:8081/video"/>
-      </div>
-    </div>
+<!-- ====== TOP BAR ====== -->
+<div class="top-bar">
+  <h1 class="sys-title">山西古建筑健康监测系统</h1>
+  <div class="top-right">
+    <span class="live-indicator"><i class="live-dot"></i> LIVE</span>
+    <span class="big-clock" id="clock">--:--:--</span>
+    <a href="http://localhost:3000/dashboard" class="settings-btn" title="管理后台">⚙️ 管理后台</a>
   </div>
 </div>
 
+<!-- ====== MIDDLE ====== -->
+<div class="middle-section">
 
-<div class="footer">© 2026 山西古建筑监测系统 | 116个区县 | 通义千问AI</div>
+  <!-- 左侧：古建筑风采 -->
+  <div class="side wing-left">
+    <div class="wing-header">🎬 古建筑风采</div>
+    <div class="wing-body">
+      <video src="zy/古建筑（加字幕版）.mp4" id="mediaVideo" autoplay loop muted playsinline></video>
+    </div>
+  </div>
+
+  <!-- ★ 中间小盒子（地图/ AI 切换）★ -->
+  <div class="inner-box" id="innerBox">
+    <!-- 切换按钮组（在 inner-box 内顶部） -->
+    <div class="toggle-bar">
+      <button class="toggle-btn active" id="btnMap" onclick="switchBox('map')">🗺️ 地图监测</button>
+      <button class="toggle-btn" id="btnAI" onclick="switchBox('ai')">💬 AI 养护助手</button>
+    </div>
+
+    <!-- 地图内容 -->
+    <div class="box-content" id="boxMap">
+      <div class="map-toolbar">
+        <select id="citySelect"><option value="">— 地级市 —</option></select>
+        <select id="countySelect"><option value="">— 区县 —</option></select>
+        <button id="resetBtn" onclick="resetMap()">🔄 复位</button>
+      </div>
+      <div id="mapChart"></div>
+      <div id="selectedInfo" class="sel-popup">
+        <div class="sel-popup-title" id="sel-name">— 选择区县查看详情 —</div>
+        <div class="sel-popup-row">
+          <span>🌡️ 温度 <b id="sel-temp">—</b></span>
+          <span>💧 湿度 <b id="sel-hum">—</b></span>
+          <span>🌤 天气 <b id="sel-desc">—</b></span>
+          <span>🌿 AQI <b id="sel-aqi">—</b></span>
+          <span>⚠️ 风险 <b id="sel-risk">—</b></span>
+        </div>
+        <div class="sel-row" id="sel-buildings" style="display:none;"></div>
+      
+      </div>
+    </div>
+
+    <!-- AI 内容 -->
+    <div class="box-content" id="boxAI" style="display:none">
+      <div class="preset-wrap">
+        <button onclick="askAI('古建筑裂缝如何修补？')">裂缝修补</button>
+        <button onclick="askAI('潮湿发霉怎么处理？')">潮湿发霉</button>
+        <button onclick="askAI('冬季如何防冻保护？')">冬季防冻</button>
+        <button onclick="askAI('木结构如何防虫蛀？')">木构防虫</button>
+      </div>
+      <div class="chat-history" id="chatHistory">
+        <div class="chat-msg sys">👋 欢迎使用山西古建筑AI养护助手！</div>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="aiQuestion" class="chat-text-input" placeholder="输入养护问题..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button id="sendBtn" class="chat-send-btn" onclick="sendMsg()">发送</button>
+      </div>
+    </div>
+  </div><!-- /inner-box -->
+
+  <!-- 右侧：实时监控 -->
+  <div class="side wing-right">
+    <div class="wing-header">📷 实时监控</div>
+    <div class="wing-body" id="camWrap">
+      <video id="camVideo" src="zy/beam_loop.mp4" autoplay loop muted playsinline></video>
+      <canvas id="yoloCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+      <div class="yolo-status" id="yoloStatus" style="display:none;position:absolute;bottom:50px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.8);color:#00ff88;padding:4px 12px;border-radius:12px;font-size:11px;z-index:10;white-space:nowrap;">🔍 YOLO 就绪</div>
+      <button class="cam-btn" id="camBtn" onclick="toggleCamera()" title="切换摄像头">📷</button>
+    </div>
+  </div>
+
+</div><!-- /middle-section -->
+
+<!-- ====== BOTTOM: 宽窄宽 ====== -->
+<div class="bottom-section">
+
+  <div class="bottom-panel">
+    <div class="box-title">📈 温度 / 湿度趋势</div>
+    <div class="bp-body" id="trendChart"></div>
+  </div>
+
+  <div class="bottom-panel bottom-panel-wide">
+    <div class="box-title">📅 7日天气预报 · <span id="forecastCityName">山西省</span></div>
+    <div class="bp-body forecast-scroll" id="forecastCards"></div>
+  </div>
+
+  <div class="bottom-panel">
+    <div class="box-title">⚠️ 病害风险分析</div>
+    <div class="bp-body" id="diseaseChart"></div>
+  </div>
+
+</div>
+
+<!-- 隐藏元素（JS兼容） -->
+<div style="display:none" aria-hidden="true">
+  <span id="m-region">山西省</span>
+  <span id="m-temp">--</span>
+  <span id="m-hum">--</span>
+  <span id="m-risk">--</span>
+  <span id="m-records">0</span>
+  <div id="leftPanel"></div>
+  <div id="rightPanel"></div>
+</div>
 
 <script src="modules/data/monitoring.js"></script>
 <script src="modules/data/shanxi_geo.js"></script>
 <script src="modules/ort.min.js"></script>
 <script src="modules/app.js"></script>
 
+
+<script>
+// 古建筑风采视频 0.5x speed
+(function() {
+  var setRate = function() {
+    var v = document.getElementById('mediaVideo');
+    if (v) {
+      v.playbackRate = 0.5;
+      console.log('[Video] playbackRate set to 0.5x');
+    }
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(setRate, 500);
+    });
+  } else {
+    setRate();
+  }
+  // Also set on play events (in case video reloads)
+  document.addEventListener('play', function(e) {
+    if (e.target && e.target.id === 'mediaVideo') {
+      e.target.playbackRate = 0.5;
+    }
+  }, true);
+})();
+</script>
 </body>
 </html>

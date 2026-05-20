@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>山西古建筑健康监测系统 v5</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<link rel="stylesheet" href="modules/style.css">
+
+</head>
+<body>
+
+<div class="header">
+  <h1 style="font-size:22px;color:#5ab4e0;margin:0;letter-spacing:3px;text-shadow:0 0 8px rgba(0,120,200,0.4)">🏛️ 山西古建筑健康监测系统</h1>
+  <div><span class="live">● LIVE</span> <span class="clock" id="clock">--:--:--</span><a href="http://localhost:3000/dashboard" class="settings-btn" title="系统管理后台">⚙️ 管理后台</a></div>
+</div>
+
+<div class="metrics">
+  <div class="card"><div class="card-icon">🏘️</div><div class="card-value" id="m-region">山西省</div><div class="card-label">当前区域</div></div>
+  <div class="card"><div class="card-icon">📍</div><div class="card-value">116</div><div class="card-label">区县监测点</div></div>
+  <div class="card"><div class="card-icon">📊</div><div class="card-value" id="m-records">2000</div><div class="card-label">数据记录</div></div>
+  <div class="card"><div class="card-icon">🌡️</div><div class="card-value" id="m-temp">17°C</div><div class="card-label">当前温度</div></div>
+  <div class="card"><div class="card-icon">💧</div><div class="card-value" id="m-hum">48%</div><div class="card-label">当前湿度</div></div>
+  <div class="card"><div class="card-icon">⚠️</div><div class="card-value" id="m-risk" style="color:#f39c12">中</div><div class="card-label">病害风险</div></div>
+</div>
+
+<div class="main">
+  <!-- 主内容行：地图（大头）| 右侧栏（指标+监控+AI） -->
+  <div class="main-row">
+    <!-- ====== 左侧：地图面板 ====== -->
+    <div class="panel map-panel">
+      <div class="panel-header">🗺️ 山西省 · 116个区县</div>
+      <div class="panel-body">
+        <div class="map-select-wrap">
+          <select class="city-select" id="citySelect">
+            <option value="">— 选择地级市 —</option>
+          </select>
+          <select class="city-select" id="countySelect">
+            <option value="">— 选择区县 —</option>
+          </select>
+          <button class="reset-btn" id="resetBtn" onclick="resetMap()">🔄 复位全省</button>
+        </div>
+        <div id="mapChart"></div>
+        <div class="selected-info" id="selectedInfo">
+          <div class="sel-title" id="sel-name">— 尚未选择区县 —</div>
+          <div class="sel-row"><span class="sel-label">🌡️</span><span class="sel-val" id="sel-temp">—</span></div>
+          <div class="sel-row"><span class="sel-label">💧</span><span class="sel-val" id="sel-hum">—</span></div>
+          <div class="sel-row"><span class="sel-label">🌤</span><span class="sel-val" id="sel-desc">—</span></div>
+          <div class="sel-row"><span class="sel-label">🌿</span><span class="sel-val" id="sel-aqi">—</span></div>
+          <div class="sel-row"><span class="sel-label">⚠️</span><span class="sel-val" id="sel-risk">—</span></div>
+        </div>
+        <!-- 地质灾害热搜 -->
+        <div class="disaster-trending">
+          <span class="trending-label" style="color:#e74c3c;">🔥 地质灾害热搜</span>
+          <span class="trending-tag">裂缝监测</span>
+          <span class="trending-tag">冻融灾害</span>
+          <span class="trending-tag">风化侵蚀</span>
+          <span class="trending-tag">木质腐朽</span>
+          <span class="trending-tag">地基沉降</span>
+        </div>
+        <!-- 7日天气预报（紧凑内嵌） -->
+        <div class="forecast-inline" id="forecastRow">
+          <div class="forecast-inline-title">📅 7日预报 <span id="forecastCityName" style="color:#00f0ff;">山西省</span></div>
+          <div class="forecast-inline-cards" id="forecastCards"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ====== 右侧：指标卡 + 监控 + AI ====== -->
+    <div class="right-col">
+      <!-- 2x2 指标卡片网格 -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🏛️</div>
+          <div class="stat-number">11,700</div>
+          <div class="stat-desc">建筑遗产档案</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📋</div>
+          <div class="stat-number" id="stat-tasks">48</div>
+          <div class="stat-desc">今日养护任务</div>
+        </div>
+        <div class="stat-card highlight-red">
+          <div class="stat-icon">⚠️</div>
+          <div class="stat-number" id="stat-risk-num" style="color:#e74c3c;">23</div>
+          <div class="stat-desc">预警中</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📊</div>
+          <div class="stat-number" id="stat-risk-pct">0.2%</div>
+          <div class="stat-desc">预警占比</div>
+        </div>
+      </div>
+
+      <!-- 实时监控面板 -->
+      <div class="panel monitor-compact">
+        <div class="panel-header">📷 实时监控</div>
+        <div class="panel-body" style="padding:0;flex:1;overflow:hidden;background:#000;border-radius:0 0 8px 8px;position:relative;">
+          <div class="cam-wrap" id="camWrap">
+            <video id="camVideo" src="zy/beam_loop.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;"></video>
+                                              </div>
+        </div>
+      </div>
+
+      <!-- AI养护咨询（紧凑版） -->
+      <div class="panel ai-compact">
+        <div class="panel-header">💬 AI 养护咨询</div>
+        <div class="panel-body" style="padding:8px 10px;gap:6px;">
+          <div class="preset-btns" style="margin-bottom:4px;">
+            <button class="preset-btn" onclick="askAI('古建筑裂缝如何修补？')">裂缝修补</button>
+            <button class="preset-btn" onclick="askAI('潮湿发霉怎么处理？')">潮湿发霉</button>
+            <button class="preset-btn" onclick="askAI('冬季如何防冻保护？')">冬季防冻</button>
+            <button class="preset-btn" onclick="askAI('木结构如何防虫蛀？')">木构防虫</button>
+          </div>
+          <div class="chat-history" id="chatHistory" style="flex:1;min-height:60px;max-height:180px;">
+            <div class="chat-msg system">👋 欢迎使用山西古建筑AI养护助手！<br>可点击上方快捷问题，或直接输入</div>
+          </div>
+          <div class="chat-input-wrap" style="margin-top:4px;">
+            <input type="text" class="chat-input" id="aiQuestion" placeholder="输入养护问题..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+            <button class="send-btn" id="sendBtn" onclick="sendMsg()">发送</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== 底部：病害知识库 ====== -->
+  <div class="disease-kb">
+    <div class="disease-kb-title">🏛️ 病害知识库</div>
+    <div class="disease-kb-grid">
+      <div class="disease-item">
+        <div class="disease-icon-box">🔲</div>
+        <div class="disease-info">
+          <div class="disease-name">裂缝</div>
+          <div class="disease-detail">温度波动、地基沉降导致的结构裂缝，常见于砖石墙体</div>
+          <div class="disease-bar"><div class="disease-bar-fill" style="width:78%;"></div></div>
+        </div>
+      </div>
+      <div class="disease-item">
+        <div class="disease-icon-box">🧱</div>
+        <div class="disease-info">
+          <div class="disease-name">剥落</div>
+          <div class="disease-detail">冻融循环和盐析导致的砖体表面剥落，常见于外墙立面</div>
+          <div class="disease-bar"><div class="disease-bar-fill" style="width:62%;background:linear-gradient(90deg,#f39c12,#e67e22);"></div></div>
+        </div>
+      </div>
+      <div class="disease-item">
+        <div class="disease-icon-box">🦠</div>
+        <div class="disease-info">
+          <div class="disease-name">霉变</div>
+          <div class="disease-detail">高湿度环境引起的木质结构霉变和微生物侵害</div>
+          <div class="disease-bar"><div class="disease-bar-fill" style="width:45%;background:linear-gradient(90deg,#f39c12,#e67e22);"></div></div>
+        </div>
+      </div>
+      <div class="disease-item">
+        <div class="disease-icon-box">🏚️</div>
+        <div class="disease-info">
+          <div class="disease-name">结构变形</div>
+          <div class="disease-detail">地基不均匀沉降导致的木结构歪闪和榫卯松动</div>
+          <div class="disease-bar"><div class="disease-bar-fill" style="width:35%;background:linear-gradient(90deg,#2ecc71,#27ae60);"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="footer">© 2026 山西古建筑监测系统 | 116个区县 | 通义千问AI</div>
+
+<script src="modules/data/monitoring.js"></script>
+<script src="modules/data/shanxi_geo.js"></script>
+<script src="modules/ort.min.js"></script>
+<script src="modules/app.js"></script>
+
+</body>
+</html>

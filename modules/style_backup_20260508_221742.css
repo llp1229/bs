@@ -1,0 +1,352 @@
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;margin:0;font-family:'Microsoft YaHei',sans-serif;background:linear-gradient(135deg,#020408,#0a1018);color:#e0e0e0;min-height:100vh;display:flex;flex-direction:column}
+.header{background:linear-gradient(90deg,#051830,#0a2850);padding:14px 30px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,100,150,0.2);box-shadow:0 2px 10px rgba(0,80,120,0.15)}
+.header h1{font-size:22px;color:#fff;text-shadow:0 2px 4px rgba(0,0,0,0.4)}
+.live{background:#e74c3c;color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.clock{font-size:14px;color:#e0f0ff;font-weight:bold}
+.metrics{display:grid;grid-template-columns:repeat(6,1fr);gap:15px;padding:18px 20px}
+.card{background:rgba(2,8,20,0.7);border:1px solid rgba(0,180,216,0.2);border-radius:10px;padding:12px 16px;text-align:center;transition:transform .2s,box-shadow .2s;box-shadow:0 0 10px rgba(0,100,200,0.1)}
+.card:hover{transform:translateY(-3px);box-shadow:0 6px 25px rgba(0,180,216,0.4),0 0 10px rgba(0,240,255,0.2)}
+.card-icon{font-size:22px}
+.card-value{font-size:20px;font-weight:700;color:#00f0ff;text-shadow:0 0 8px rgba(0,240,255,0.3);margin:4px 0 2px}
+.card-label{font-size:12px;color:#7dcfff}
+.panel{background:rgba(2,5,15,0.8);border:1px solid rgba(0,180,216,0.3);border-radius:12px;align-self:stretch;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 8px rgba(0,80,150,0.1),inset 0 1px 0 rgba(0,120,180,0.05)}
+.panel-header{background:rgba(0,20,50,0.5);padding:11px 18px;font-size:14px;font-weight:bold;color:#00f0ff;border-bottom:1px solid rgba(0,180,216,0.3);text-shadow:0 0 8px rgba(0,240,255,0.4)}
+.panel-body{padding:14px;display:flex;flex-direction:column;flex:1}
+
+.map-select-wrap{display:flex;gap:10px;margin-bottom:8px;align-items:center;flex-wrap:wrap}
+.city-select{background:rgba(10,80,180,0.3);border:1px solid #1a8fc4;border-radius:8px;padding:6px 14px;color:#e0f0ff;font-size:13px;cursor:pointer;outline:none;min-width:170px}
+.reset-btn{background:rgba(10,80,180,0.2);border:1px solid rgba(10,80,180,0.5);border-radius:8px;padding:6px 14px;color:#1a8fc4;font-size:12px;cursor:pointer;transition:background 0.2s}
+.reset-btn:hover{background:rgba(10,80,180,0.4)}
+#mapChart{width:100%;flex:1;min-height:300px}
+
+.selected-info{background:rgba(10,80,180,0.15);border:1px solid #1a8fc4;border-radius:10px;padding:12px;margin-top:8px;display:none}
+.selected-info.show{display:block}
+.sel-title{font-size:15px;font-weight:bold;color:#00f0ff;margin-bottom:6px}
+.sel-row{display:flex;gap:16px;margin-bottom:3px;font-size:13px}
+.sel-label{color:#aaa;min-width:48px}
+.sel-val{color:#e0f0ff}
+.map-tip{margin-top:8px;font-size:12px;color:#888;line-height:1.6}
+
+.forecast-row{width:100%;display:flex;flex-direction:column;gap:10px;padding:0 20px 15px;box-sizing:border-box}.forecast-container{width:100%;display:flex;flex-direction:column;gap:8px}
+.forecast-title{font-size:14px;color:#00f0ff;font-weight:bold;margin-bottom:8px;text-shadow:0 0 6px rgba(0,240,255,0.3)}.forecast-cards{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%;box-sizing:border-box}
+
+.forecast-container{width:100%;display:flex;flex-direction:column;gap:8px}
+.forecast-title{font-size:13px;color:#1a8fc4;font-weight:bold;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.forecast-city-name{color:#00f0ff}
+.forecast-cards{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;width:100%;box-sizing:border-box}
+.forecast-card{background:rgba(0,30,60,0.4);border:1px solid rgba(0,180,216,0.2);border-radius:8px;padding:10px 6px;text-align:center;transition:all .2s}
+.forecast-card:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,180,216,0.3);border-color:rgba(0,240,255,0.4)}
+.forecast-card.active{background:rgba(10,80,180,0.35);border-color:#00f0ff}
+.forecast-day{font-size:11px;color:#1a8fc4;font-weight:bold;margin-bottom:6px}
+.forecast-icon{font-size:28px;margin-bottom:4px}
+.forecast-temp{font-size:13px;color:#00f0ff;font-weight:bold}
+
+.chart-row{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:15px;padding:0 20px 15px;box-sizing:border-box}
+.chart-wrap{background:rgba(2,8,20,0.7);border:1px solid rgba(0,180,216,0.2);border-radius:12px;padding:14px;box-shadow:0 0 12px rgba(0,100,200,0.12)}
+.chart-title{font-size:13px;color:#1a8fc4;font-weight:bold;margin-bottom:10px}
+.cam-wrap{background:#111;border-radius:8px;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.cam-btn{width:44px;height:44px;border-radius:50%;background:rgba(10,80,180,0.25);border:1.5px solid #1a8fc4;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 0.2s;position:absolute;bottom:12px;right:12px;z-index:10}
+.cam-btn:hover{transform:scale(1.1);background:rgba(10,80,180,0.4);border-color:#00f0ff;box-shadow:0 0 10px rgba(0,240,255,0.3)}
+.cam-icon{font-size:22px}
+.cam-label{font-size:9px;color:#1a8fc4;margin-top:2px}
+.cam-url{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(10,80,180,0.3);border-radius:6px;padding:8px;color:#e0e0e0;margin-top:8px;font-size:12px}
+
+.monitor-panel{display:flex;flex-direction:column;height:580px;min-height:580px;overflow:hidden}
+.ai-panel{display:flex;flex-direction:column;height:580px;min-height:580px;max-height:580px;overflow:hidden;background:rgba(2,5,15,0.9);border:1px solid rgba(0,180,216,0.35);border-radius:16px;padding:14px;box-shadow:0 4px 24px rgba(0,0,0,0.5),0 0 20px rgba(0,120,200,0.2),inset 0 1px 0 rgba(0,180,216,0.15);backdrop-filter:blur(12px)}
+/* 聊天记录 */
+.chat-history{
+  flex:1 1;min-height:150px;overflow-y:auto;
+  background:rgba(255,255,255,0.03);border-radius:12px;
+  padding:12px 14px;margin-bottom:10px;
+  border:1px solid rgba(10,80,180,0.15);
+  scrollbar-width:thin;scrollbar-color:rgba(0,180,216,0.3) transparent;
+}
+.chat-history::-webkit-scrollbar{width:4px}
+.chat-history::-webkit-scrollbar-thumb{background:rgba(10,80,180,0.4);border-radius:2px}
+/* 消息气泡 */
+.chat-msg{font-size:13px;line-height:1.65;margin-bottom:8px;padding:9px 14px;border-radius:14px;word-break:break-all;max-width:88%;animation:msgIn 0.25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.chat-msg.user{
+  background:linear-gradient(135deg,rgba(10,80,180,0.6),rgba(0,80,160,0.4));
+  color:#e8f4ff;margin-left:auto;text-align:right;
+  border-bottom-right-radius:4px;
+  border:1px solid rgba(0,180,216,0.25);
+  box-shadow:0 2px 10px rgba(10,80,180,0.25);
+}
+.chat-msg.ai{
+  background:linear-gradient(135deg,rgba(15,40,70,0.8),rgba(25,55,90,0.6));
+  color:#b0e0ff;margin-right:auto;
+  border-bottom-left-radius:4px;
+  border:1px solid rgba(80,140,200,0.2);
+  box-shadow:0 2px 10px rgba(0,30,60,0.25);
+}
+.chat-msg.system{background:rgba(10,80,180,0.08);color:#5a9fcf;font-style:normal;font-size:12px;margin-bottom:14px;border-left:3px solid rgba(10,80,180,0.5);padding-left:12px;border-radius:0 8px 8px 0}
+/* 快捷按钮 */
+.preset-btns{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;flex-shrink:0}
+.preset-btn{background:linear-gradient(135deg,rgba(0,60,120,0.3),rgba(0,40,80,0.15));border:1px solid rgba(0,180,216,0.35);border-radius:20px;padding:5px 14px;font-size:12px;color:#5ab4e0;cursor:pointer;transition:all .2s;white-space:nowrap;text-shadow:0 0 4px rgba(0,180,216,0.3)}
+.preset-btn:hover{background:linear-gradient(135deg,rgba(0,100,200,0.5),rgba(0,80,160,0.35));color:#fff;border-color:#00f0ff;transform:translateY(-2px);box-shadow:0 0 12px rgba(0,180,216,0.4)}
+/* 输入区 */
+.chat-input-wrap{display:flex;gap:8px;flex-shrink:0;background:rgba(0,10,30,0.4);border-radius:12px;padding:6px 8px;border:1px solid rgba(0,180,216,0.2);box-shadow:inset 0 1px 3px rgba(0,0,0,0.3),0 0 8px rgba(0,100,200,0.1);margin-top:8px}
+.chat-input{
+  flex:1;min-height:38px;background:rgba(0,10,30,0.6);border:1px solid rgba(0,180,216,0.25);border-radius:8px;
+  padding:8px 12px;color:#e0e0e0;font-size:13px;outline:none;caret-color:#00f0ff}
+.chat-input::placeholder{color:#666}
+.send-btn{background:linear-gradient(135deg,#0a3d7a,#2196f3);color:#fff;border:none;border-radius:8px;padding:8px 18px;cursor:pointer;font-size:13px;transition:all .2s;box-shadow:0 0 10px rgba(0,120,200,0.3)}
+.send-btn:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(0,180,216,0.5),0 0 30px rgba(0,120,200,0.2)}
+.send-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+.footer{padding:12px;text-align:center;font-size:11px;color:#555;border-top:1px solid rgba(10,80,180,0.2)}
+
+#thinkingMsg{display:flex;align-items:center;gap:8px;background:rgba(30,50,80,0.6);border-radius:14px;padding:9px 16px;color:#5ab4e0;font-size:13px;border:1px solid rgba(80,140,200,0.2);animation:thinkPulse 1.4s ease-in-out infinite}
+@keyframes thinkPulse{0%,100%{opacity:1}50%{opacity:0.5}}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* 科技感扫描线 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,100,150,0.008) 2px,
+    rgba(0,100,150,0.008) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* 消息进入动画 */
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 脉冲呼吸动画 */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 发光边框动画 */
+@keyframes borderGlow {
+  0%, 100% { border-color: rgba(0,180,216,0.3); box-shadow: 0 0 10px rgba(0,100,200,0.1); }
+  50% { border-color: rgba(0,240,255,0.4); box-shadow: 0 0 20px rgba(0,120,200,0.2); }
+}
+
+/* AI面板固定高度 */
+
+/* 滚动条美化 */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,180,216,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,180,216,0.5); }
+
+/* 新布局样式 */
+.layout-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: stretch;
+}
+
+/* 第一行地图和广告区域 - 内容撑满无空白 */
+.layout-row:first-child 
+
+.map-tip {
+  display: block;
+}
+
+/* 视频缩小到2/3 */
+
+
+
+
+
+
+
+
+/* 广告视频等比例 */
+
+
+.layout-row > .panel,
+.layout-row > .chart-wrap {
+  height: auto;
+  min-height: 0;
+}
+
+.layout-row .panel,
+.layout-row .forecast-row,
+.layout-row .chart-wrap {
+  margin: 0;
+}
+
+/* 广告面板 */
+
+
+
+}
+
+
+
+/* 监控行（全宽） */
+.monitor-row {
+  padding: 0 20px 15px;
+}
+
+.monitor-row .panel {
+  margin: 0;
+}
+
+/* 天气预报全宽 */
+.forecast-full {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(0,180,216,0.3);
+  border-radius: 12px;
+  padding: 12px 20px;
+  margin: 0 0 15px 0;
+}
+
+.forecast-full .forecast-container {
+  width: 100%;
+}
+
+
+/* 广告视频面板 - 等比例缩放到2/3 */
+.ad-panel { display: flex; flex-direction: column; }
+.ad-panel .ad-panel video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+/* YOLO detection overlay */
+#yoloCanvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+.yolo-status {
+  position: absolute;
+  top: 8px; left: 12px;
+  background: rgba(0,200,0,0.75);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  z-index: 10;
+  pointer-events: none;
+  text-shadow: 0 0 6px rgba(0,255,0,0.6);
+  transition: all 0.4s;
+}
+.yolo-status.loading {
+  background: rgba(255,180,0,0.75);
+}
+.yolo-status.error {
+  background: rgba(255,0,0,0.75);
+}
+
+.forecast-wind {
+  font-size: 9px;
+  color: #78909c;
+  text-align: center;
+  margin-top: 1px;
+}
+
+/* ===== 设置按钮 ===== */
+.settings-btn {
+  display: inline-block;
+  padding: 4px 14px;
+  background: linear-gradient(135deg, #0a3d7a, #1a6fb5);
+  color: #00f0ff;
+  border: 1px solid rgba(0,240,255,0.3);
+  border-radius: 20px;
+  font-size: 13px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-left: 12px;
+  letter-spacing: 1px;
+  box-shadow: 0 0 8px rgba(0,120,200,0.2);
+}
+.settings-btn:hover {
+  background: linear-gradient(135deg, #1a6fb5, #2a9fd8);
+  border-color: #00f0ff;
+  box-shadow: 0 0 16px rgba(0,240,255,0.4);
+  color: #fff;
+}
+
+
+
+/* ===== NEW LAYOUT V2 ===== */
+.main { display:flex; flex-direction:column; gap:15px; padding:0 20px 15px; flex:1; min-height:0; }
+.main-row { display:flex; gap:15px; flex:1; min-height:0; }
+
+/* Map panel ~68% */
+.map-panel { flex:0 0 68%; display:flex; flex-direction:column; overflow:hidden; }
+.map-panel .panel-body { flex:1; display:flex; flex-direction:column; }
+.map-panel #mapChart { flex:1; min-height:380px; height:auto; }
+
+/* Right column ~32% */
+.right-col { flex:1; display:flex; flex-direction:column; gap:12px; min-width:340px; max-width:440px; }
+
+/* 2x2 Stats Grid */
+.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.stat-card { background:rgba(0,30,60,0.5); border:1px solid rgba(0,180,216,0.25); border-radius:10px; padding:12px 14px; text-align:center; transition:all .25s; }
+.stat-card:hover { transform:translateY(-2px); border-color:#00f0ff; box-shadow:0 0 15px rgba(0,180,216,0.35); }
+.stat-card.highlight-red { border-color:rgba(231,76,60,0.35); }
+.stat-card.highlight-red:hover { border-color:#e74c3c; box-shadow:0 0 15px rgba(231,76,60,0.3); }
+.stat-icon { font-size:20px; margin-bottom:4px; }
+.stat-number { font-size:22px; font-weight:700; color:#00f0ff; text-shadow:0 0 8px rgba(0,240,255,0.4); margin:2px 0; }
+.stat-desc { font-size:11px; color:#7dcfff; margin-top:1px; }
+
+/* Monitor compact */
+.monitor-compact { flex:1; min-height:200px; display:flex; flex-direction:column; overflow:hidden; }
+.monitor-compact .panel-body { flex:1; display:flex; }
+.monitor-compact .cam-wrap { flex:1; min-height:160px; border-radius:0; }
+
+/* AI compact */
+.ai-compact { flex:1; min-height:260px; display:flex; flex-direction:column; overflow:hidden; }
+.ai-compact .panel-body { flex:1; display:flex; flex-direction:column; }
+.ai-compact .chat-history { flex:1; min-height:60px; max-height:180px; overflow-y:auto; margin-bottom:4px; }
+
+/* 地质灾害热搜 */
+.disaster-trending { display:flex; gap:8px; margin-top:8px; align-items:center; flex-wrap:wrap; padding:6px 0; }
+.trending-label { font-size:12px; font-weight:bold; white-space:nowrap; }
+.trending-tag { display:inline-block; padding:3px 10px; background:rgba(0,90,180,0.2); border:1px solid rgba(0,180,216,0.3); border-radius:14px; font-size:11px; color:#5ab4e0; cursor:pointer; transition:all .2s; }
+.trending-tag:hover { background:rgba(0,120,200,0.35); border-color:#00f0ff; color:#fff; }
+
+/* 预报内嵌 */
+.forecast-inline { border-top:1px solid rgba(0,180,216,0.15); padding-top:8px; margin-top:6px; }
+.forecast-inline-title { font-size:12px; color:#1a8fc4; font-weight:bold; }
+.forecast-inline-cards { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-top:6px; }
+.forecast-inline-cards .forecast-card { padding:6px 4px; }
+.forecast-inline-cards .forecast-day { font-size:9px; }
+.forecast-inline-cards .forecast-icon { font-size:20px; }
+.forecast-inline-cards .forecast-temp { font-size:11px; }
+.forecast-inline-cards .forecast-wind { font-size:7px; }
+
+/* 病害知识库 */
+.disease-kb { background:rgba(2,8,20,0.7); border:1px solid rgba(0,180,216,0.2); border-radius:12px; padding:14px 18px; }
+.disease-kb-title { font-size:15px; font-weight:bold; color:#00f0ff; margin-bottom:10px; text-shadow:0 0 6px rgba(0,240,255,0.3); }
+.disease-kb-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.disease-item { display:flex; gap:10px; align-items:flex-start; background:rgba(0,20,50,0.5); border:1px solid rgba(0,180,216,0.2); border-radius:10px; padding:12px 14px; transition:all .25s; }
+.disease-item:hover { border-color:#00f0ff; box-shadow:0 0 14px rgba(0,180,216,0.3); transform:translateY(-2px); }
+.disease-icon-box { font-size:28px; flex-shrink:0; width:44px; height:44px; display:flex; align-items:center; justify-content:center; background:rgba(0,40,80,0.5); border-radius:10px; border:1px solid rgba(0,180,216,0.2); }
+.disease-info { flex:1; min-width:0; }
+.disease-name { font-size:14px; font-weight:bold; color:#b0e0ff; margin-bottom:4px; }
+.disease-detail { font-size:11px; color:#6a9fc0; line-height:1.5; margin-bottom:6px; }
+.disease-bar { height:5px; background:rgba(255,255,255,0.06); border-radius:3px; overflow:hidden; }
+.disease-bar-fill { height:100%; background:linear-gradient(90deg,#e74c3c,#c0392b); border-radius:3px; transition:width .5s; }
+
+/* Old style overrides - hide unused elements */
+.chart-row, .chart-wrap, .layout-row, .ad-panel, .forecast-full, .forecast-row { display:none; }
+.forecast-wind { font-size:7px; color:#78909c; text-align:center; margin-top:1px; }
+
+/* Hide old global forecast container styles (keep cards) */
+/* Reset card styles for inline forecast */
